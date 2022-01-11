@@ -1,0 +1,34 @@
+{
+	"parser": "babel-eslint",
+	"extends": ["eslint:recommended", "prettier"],
+	"plugins": ["prettier"],
+	"rules": {
+		// Built In ESLint Rules
+		"array-bracket-spacing": ["error", "never"], // Space not required in arrays.
+		"arrow-body-style": ["error", "as-needed"], // Throw error on malformatted arrow function body
+		"consistent-return": "off", // Disable consistent-return, this can be annoying when dealing with async/side effects.
+		"func-style": ["warn", "expression", { "allowArrowFunctions": true }], // Warns against functions not declared as expressions
+		"indent": "off", // Disabled because indentation is handled by prettier.
+		"max-len": ["warn", { "code": 120, "tabWidth": 2, "ignoreTrailingComments": true, "ignoreTemplateLiterals": true, "ignorePattern": "d=([\\s\\S]*?)" }], // Warning for long lines (Should auto format thanks to prettier if 'formatOnSave' is enabled for the developer). Ignoring template literals for the long copy deck strings. Ignore long path strings (d=...)
+		"no-multi-spaces": ["error", { "ignoreEOLComments": true }], // Disable multi-spaces unless for EOL comments.
+		"no-plusplus": ["error", { "allowForLoopAfterthoughts": true }], // Disallow the unary ++ & -- operators due to possible automatic semicolon insertion (should still be allowed for for loops though)
+		"no-debugger": "off", // Disable debugger statement warnings/errors. In production builds these are dropped automatcially by terser-plugin-webpack
+		"no-console": "off", // Disable console.* warnings/errors. In production builds these are dropped automatically by terser-plugin-webpack
+		"no-use-before-define": ["error", { "functions": false }], // Disallow use of classes & variables before definition but allow callback functions
+		"object-curly-spacing": ["error", "always"],
+		"semi": ["error", "always"], // Enforce semicolons
+		"sort-imports": [
+			"warn", // Warnings for sorting imports
+			{ "allowSeparatedGroups": true, "memberSyntaxSortOrder": ["single", "all", "multiple", "none"] }
+		],
+		// External config/plugin rules.
+		"import/no-unresolved": "off",
+		"import/prefer-default-export": "off",
+		"jsx-a11y/media-has-caption": "off",
+		"prettier/prettier": "warn" // Warnings for format issues
+	},
+	"settings": {
+		"import/resolver": { "node": { "paths": ["src"] } }
+	},
+	"env": { "browser": true, "node": true }
+}
