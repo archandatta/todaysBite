@@ -20,6 +20,7 @@
   "dependencies": {
     "express": "^4.17.2",
     "sequelize": "^6.13.0",
+    "sequelize-auto": "^0.8.8",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2"
   },

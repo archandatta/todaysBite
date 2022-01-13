@@ -8,7 +8,7 @@ const sequelize = new Sequelize('sqlite:mydb.db');
 const Recipe = sequelize.define(
 	'recipes',
 	{
-		id: { field: 'recipe_id', type: Sequelize.INTEGER, primaryKey: true },
+		recipe_id: { type: Sequelize.INTEGER, primaryKey: true },
 		title: Sequelize.STRING,
 	},
 	{
@@ -16,21 +16,25 @@ const Recipe = sequelize.define(
 	}
 );
 
-// create a GET route
-app.get('/recipe', async (req, res) => {
+const DBAuthenticate = async () => {
 	try {
 		await sequelize.authenticate();
 		console.log('Connection has been established successfully.');
 	} catch (error) {
 		console.error('Unable to connect to the database:', error);
 	}
+};
+
+// create a GET route
+app.get('/recipe', async (req, res) => {
 	try {
 		const recipe = await Recipe.findAll();
 		res.json(recipe);
 	} catch (e) {
-		console.info(e);
+		// console.info(e);
 	}
 });
 
 // This displays message that the server running and listening to specified port
 app.listen(port, () => console.log(`Listening on port ${port}`));
+DBAuthenticate();
