@@ -1,33 +1,23 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('user', {
-    userId: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      primaryKey: true,
-      unique: true,
-      field: 'user_id'
+    id: {
+      autoIncrement: true,
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      primaryKey: true
     },
     username: {
-      type: DataTypes.TEXT,
-      allowNull: false
+      type: DataTypes.STRING(255),
+      allowNull: true
     },
     password: {
-      type: DataTypes.TEXT,
-      allowNull: false
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     sequelize,
     tableName: 'user',
-    timestamps: false,
-    indexes: [
-      {
-        name: "sqlite_autoindex_user_1",
-        unique: true,
-        fields: [
-          { name: "user_id" },
-        ]
-      },
-    ]
+    timestamps: false
   });
 };
