@@ -12,7 +12,7 @@ const options = {
 	spaces: true,
 	indentation: 2,
 	additional: {
-		timestamps: false,
+		timestamps: true,
 	},
 };
 
