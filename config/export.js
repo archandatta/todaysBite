@@ -2,8 +2,25 @@ const SequelizeAuto = require('sequelize-auto');
 
 // Edit your database settings in config.js
 const config = require('./config');
+const options = {
+	directory: '../models',
+	caseFile: 'c',
+	caseModel: 'c',
+	caseProp: 'c',
+	useDefine: false,
+	singularize: true,
+	spaces: true,
+	indentation: 2,
+	additional: {
+		timestamps: false,
+	},
+};
 
-var auto = new SequelizeAuto(config.dbname, config.user, config.pass, config.autoOptions);
+var auto = new SequelizeAuto('todaysbite.db', '', '', {
+	dialect: 'sqlite',
+	storage: '../todaysbite.db',
+	...options,
+});
 
 auto.run().then((data) => {
 	const tableNames = Object.keys(data.tables);
