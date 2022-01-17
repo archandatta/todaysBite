@@ -1,7 +1,5 @@
 const SequelizeAuto = require('sequelize-auto');
 
-// Edit your database settings in config.js
-const config = require('./config');
 const options = {
 	directory: '../models',
 	caseFile: 'c',
@@ -25,6 +23,6 @@ var auto = new SequelizeAuto('todaysbite.db', '', '', {
 auto.run().then((data) => {
 	const tableNames = Object.keys(data.tables);
 	console.log(tableNames); // table list
-	console.log(data.foreignKeys); // foreign key list
+	// console.log(data.foreignKeys); // foreign key list
 	// console.log(data.text)         // text of generated files
 });

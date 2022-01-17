@@ -1,20 +1,13 @@
-const express = require('express');
-const app = express();
 const port = process.env.PORT || 5000;
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.json());
+
 const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize('sqlite:mydb.db');
-
-const Recipe = sequelize.define(
-	'recipes',
-	{
-		recipe_id: { type: Sequelize.INTEGER, primaryKey: true },
-		title: Sequelize.STRING,
-	},
-	{
-		timestamps: false,
-	}
-);
+const initModels = require('./models/init-models');
+const sequelize = new Sequelize('sqlite:todaysbite.db');
+const models = initModels(sequelize);
 
 const DBAuthenticate = async () => {
 	try {
@@ -25,10 +18,24 @@ const DBAuthenticate = async () => {
 	}
 };
 
+// Create user
+app.post('/create-user', async (req, res) => {
+	console.info(req.body);
+	const username = req.body.username;
+	const password = req.body.password;
+	try {
+		const ret = await models.user.create({ username: username, password: password });
+		console.info(ret)
+	} catch (e) {
+		console.info(e);
+	}
+});
+
 // create a GET route
 app.get('/recipe', async (req, res) => {
+	console.info(req);
 	try {
-		const recipe = await Recipe.findAll();
+		const recipe = await models.user.findAll();
 		res.json(recipe);
 	} catch (e) {
 		// console.info(e);

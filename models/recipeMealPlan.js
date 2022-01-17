@@ -26,6 +26,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'recipe_meal_plan',
-    timestamps: true
+    timestamps: true,
+    defaultValue: 'UUIDV4'
   });
 };

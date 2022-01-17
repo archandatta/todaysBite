@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define('ingredient', {
     id: {
       type: DataTypes.UUID,
-      allowNull: true,
+      allowNull: false,
+      defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
       unique: true
     },
@@ -27,6 +28,7 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'ingredient',
     timestamps: true,
+    defaultValue: 'UUIDV4',
     indexes: [
       {
         name: "sqlite_autoindex_ingredient_1",

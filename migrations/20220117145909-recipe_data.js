@@ -4,13 +4,13 @@ module.exports = {
 	up: async (queryInterface, Sequelize) => {
 		// Recipe table
 		await queryInterface.createTable('recipe', {
-			id: { type: Sequelize.UUIDV4, primaryKey: true },
+			id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, allowNull: false, primaryKey: true },
 			title: Sequelize.STRING,
 			description: Sequelize.STRING,
 			prep_time: Sequelize.INTEGER,
 			cook_time: Sequelize.INTEGER,
 			user_id: {
-				type: Sequelize.UUIDV4,
+				type: Sequelize.UUID,
 				references: { model: 'user', key: 'id' },
 			},
 			created_at: Sequelize.DATE,
@@ -19,7 +19,7 @@ module.exports = {
 
 		// Ingredient table
 		await queryInterface.createTable('ingredient', {
-			id: { type: Sequelize.UUIDV4, primaryKey: true },
+			id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, allowNull: false, primaryKey: true },
 			name: Sequelize.STRING,
 			unit: Sequelize.STRING,
 			quantity: Sequelize.DOUBLE,
@@ -31,11 +31,11 @@ module.exports = {
 		// Recipe indgredients table
 		await queryInterface.createTable('recipe_ingredient', {
 			recipe_id: {
-				type: Sequelize.UUIDV4,
+				type: Sequelize.UUID,
 				references: { model: 'recipe', key: 'id' },
 			},
 			ingredient_id: {
-				type: Sequelize.UUIDV4,
+				type: Sequelize.UUID,
 				references: { model: 'ingredient', key: 'id' },
 			},
 			step_number: Sequelize.INTEGER,
@@ -45,7 +45,7 @@ module.exports = {
 
 		// Tag table
 		await queryInterface.createTable('tag', {
-			id: { type: Sequelize.UUIDV4, primaryKey: true },
+			id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, allowNull: false, primaryKey: true },
 			tag: Sequelize.STRING,
 			created_at: Sequelize.DATE,
 			updated_at: Sequelize.DATE,
@@ -54,11 +54,11 @@ module.exports = {
 		// Recipe Tags table
 		await queryInterface.createTable('recipe_tag', {
 			recipe_id: {
-				type: Sequelize.UUIDV4,
+				type: Sequelize.UUID,
 				references: { model: 'recipe', key: 'id' },
 			},
 			tag_id: {
-				type: Sequelize.UUIDV4,
+				type: Sequelize.UUID,
 				references: { model: 'tag', key: 'id' },
 			},
 			created_at: Sequelize.DATE,
@@ -67,7 +67,7 @@ module.exports = {
 
 		// Meal Plan table
 		await queryInterface.createTable('meal_plan', {
-			id: { type: Sequelize.UUIDV4, primaryKey: true },
+			id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, allowNull: false, primaryKey: true },
 			recipe_name: Sequelize.STRING,
 			created_at: Sequelize.DATE,
 			updated_at: Sequelize.DATE,
@@ -76,11 +76,11 @@ module.exports = {
 		// Recipe Meal Plan table
 		await queryInterface.createTable('recipe_meal_plan', {
 			recipe_id: {
-				type: Sequelize.UUIDV4,
+				type: Sequelize.UUID,
 				references: { model: 'recipe', key: 'id' },
 			},
 			meal_id: {
-				type: Sequelize.UUIDV4,
+				type: Sequelize.UUID,
 				references: { model: 'meal_plan', key: 'id' },
 			},
 			course: Sequelize.STRING,

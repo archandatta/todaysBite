@@ -27,6 +27,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'recipe_ingredient',
-    timestamps: true
+    timestamps: true,
+    defaultValue: 'UUIDV4'
   });
 };
