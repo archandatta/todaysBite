@@ -25,7 +25,7 @@ app.post('/create-user', async (req, res) => {
 	const password = req.body.password;
 	try {
 		const ret = await models.user.create({ username: username, password: password });
-		console.info(ret)
+		console.info(ret);
 	} catch (e) {
 		console.info(e);
 	}
@@ -33,12 +33,13 @@ app.post('/create-user', async (req, res) => {
 
 // create a GET route
 app.get('/recipe', async (req, res) => {
-	console.info(req);
+	// console.info(req);
 	try {
-		const recipe = await models.user.findAll();
-		res.json(recipe);
+		const recipe = await models.tag.findAll();
+		console.info(recipe);
+		res.json(recipe).status(200);
 	} catch (e) {
-		// console.info(e);
+		console.info(e);
 	}
 });
 

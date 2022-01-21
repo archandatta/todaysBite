@@ -13,8 +13,8 @@ module.exports = {
 				type: Sequelize.UUID,
 				references: { model: 'user', key: 'id' },
 			},
-			created_at: Sequelize.DATE,
-			updated_at: Sequelize.DATE,
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 		});
 
 		// Ingredient table
@@ -24,8 +24,8 @@ module.exports = {
 			unit: Sequelize.STRING,
 			quantity: Sequelize.DOUBLE,
 			store: Sequelize.STRING,
-			created_at: Sequelize.DATE,
-			updated_at: Sequelize.DATE,
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 		});
 
 		// Recipe indgredients table
@@ -39,16 +39,16 @@ module.exports = {
 				references: { model: 'ingredient', key: 'id' },
 			},
 			step_number: Sequelize.INTEGER,
-			created_at: Sequelize.DATE,
-			updated_at: Sequelize.DATE,
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 		});
 
 		// Tag table
 		await queryInterface.createTable('tag', {
 			id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, allowNull: false, primaryKey: true },
 			tag: Sequelize.STRING,
-			created_at: Sequelize.DATE,
-			updated_at: Sequelize.DATE,
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 		});
 
 		// Recipe Tags table
@@ -61,16 +61,16 @@ module.exports = {
 				type: Sequelize.UUID,
 				references: { model: 'tag', key: 'id' },
 			},
-			created_at: Sequelize.DATE,
-			updated_at: Sequelize.DATE,
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 		});
 
 		// Meal Plan table
 		await queryInterface.createTable('meal_plan', {
 			id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, allowNull: false, primaryKey: true },
 			recipe_name: Sequelize.STRING,
-			created_at: Sequelize.DATE,
-			updated_at: Sequelize.DATE,
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 		});
 
 		// Recipe Meal Plan table
@@ -84,8 +84,8 @@ module.exports = {
 				references: { model: 'meal_plan', key: 'id' },
 			},
 			course: Sequelize.STRING,
-			created_at: Sequelize.DATE,
-			updated_at: Sequelize.DATE,
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 		});
 	},
 
