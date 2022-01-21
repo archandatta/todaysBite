@@ -1,11 +1,12 @@
 const port = process.env.PORT || 5000;
 const express = require('express');
+const Sequelize = require('sequelize');
+const initModels = require('./models/init-models');
+
 const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 
-const Sequelize = require('sequelize');
-const initModels = require('./models/init-models');
 const sequelize = new Sequelize('sqlite:todaysbite.db');
 const models = initModels(sequelize);
 
@@ -18,7 +19,7 @@ const DBAuthenticate = async () => {
 	}
 };
 
-// Create user
+// POST - create user
 app.post('/create-user', async (req, res) => {
 	// console.info(req.body);
 	const username = req.body.username;
@@ -31,17 +32,24 @@ app.post('/create-user', async (req, res) => {
 	}
 });
 
-// create a GET route
+// POST - add recipe
+// take in recipe data, ingredients and tags
+
+// POST - add meal plan
+
+// PUT - add tag to recipe
+
+// GET - find all recipes by user
+// along with the underlying data, ingredients, tags
 app.get('/recipe', async (req, res) => {
-	// console.info(req);
-	try {
-		const recipe = await models.tag.findAll();
-		console.info(recipe);
-		res.json(recipe).status(200);
-	} catch (e) {
-		console.info(e);
-	}
+
 });
+
+// GET - find ingredients from a list of recipes
+
+// GET - find recipes by tag
+
+// GET - find all recipes for a planned week
 
 // This displays message that the server running and listening to specified port
 app.listen(port, () => console.log(`Listening on port ${port}`));
