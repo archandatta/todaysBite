@@ -20,7 +20,7 @@ const DBAuthenticate = async () => {
 
 // Create user
 app.post('/create-user', async (req, res) => {
-	console.info(req.body);
+	// console.info(req.body);
 	const username = req.body.username;
 	const password = req.body.password;
 	try {
