@@ -21,12 +21,11 @@ const DBAuthenticate = async () => {
 
 // POST - create user
 app.post('/create-user', async (req, res) => {
-	// console.info(req.body);
 	const username = req.body.username;
 	const password = req.body.password;
 	try {
 		const ret = await models.user.create({ username: username, password: password });
-		console.info(ret);
+		res.json(ret).status(200);
 	} catch (e) {
 		console.info(e);
 	}
@@ -34,6 +33,29 @@ app.post('/create-user', async (req, res) => {
 
 // POST - add recipe
 // take in recipe data, ingredients and tags
+app.post('/create-recipe', async (req, res) => {
+	// consider using query params for id
+	// and the rest of the detials through body
+	const userID = req.body.userID;
+	const title = req.body.title;
+	const description = req.body.description;
+	const prepTime = req.body.prepTime;
+	const cookTime = req.body.cookTime;
+
+	try {
+		// TODO: nested ingredients and tags creation
+		const ret = await models.recipe.create({
+			userId: userID,
+			title: title,
+			description: description,
+			prepTime: prepTime,
+			cookTime: cookTime,
+		});
+		res.json(ret).status(200);
+	} catch (e) {
+		console.info(e);
+	}
+});
 
 // POST - add meal plan
 
@@ -41,9 +63,7 @@ app.post('/create-user', async (req, res) => {
 
 // GET - find all recipes by user
 // along with the underlying data, ingredients, tags
-app.get('/recipe', async (req, res) => {
-
-});
+app.get('/recipe', async (req, res) => {});
 
 // GET - find ingredients from a list of recipes
 
