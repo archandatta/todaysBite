@@ -32,26 +32,35 @@ app.post('/create-user', async (req, res) => {
 });
 
 // POST - add recipe
-// take in recipe data, ingredients and tags
+// TODO: tags
 app.post('/create-recipe', async (req, res) => {
 	// consider using query params for id
-	// and the rest of the detials through body
-	const userID = req.body.userID;
-	const title = req.body.title;
-	const description = req.body.description;
-	const prepTime = req.body.prepTime;
-	const cookTime = req.body.cookTime;
 
 	try {
-		// TODO: nested ingredients and tags creation
-		const ret = await models.recipe.create({
-			userId: userID,
-			title: title,
-			description: description,
-			prepTime: prepTime,
-			cookTime: cookTime,
+		const [recipe] = await models.recipe.findOrCreate({
+			where: { title: req.body.recipe.title },
+			defaults: {
+				...req.body.recipe,
+			},
 		});
-		res.json(ret).status(200);
+
+		const [ingredient] = await models.ingredient.findOrCreate({
+			where: { name: req.body.ingredient.name },
+			defaults: {
+				...req.body.ingredient,
+			},
+		});
+
+		const [recipeIngredient] = await models.recipeIngredient.findOrCreate({
+			where: { recipeId: recipe.dataValues.id, ingredientId: ingredient.dataValues.id },
+			defaults: {
+				recipeId: recipe.dataValues.id,
+				ingredientId: ingredient.dataValues.id,
+			},
+		});
+
+		console.info(recipe.dataValues.id, ingredient.dataValues.id, recipeIngredient.dataValues);
+		res.json(recipe).status(200);
 	} catch (e) {
 		console.info(e);
 	}
@@ -62,12 +71,39 @@ app.post('/create-recipe', async (req, res) => {
 // PUT - add tag to recipe
 
 // GET - find all recipes by user
-// along with the underlying data, ingredients, tags
-app.get('/recipe', async (req, res) => {});
+// TODO: tags, meal plan
+app.get('/recipe/:id', async (req, res) => {
+	const recipeId = req.params.id;
+
+	try {
+		const recipeIngredients = await models.recipeIngredient.findAll({
+			where: { recipeId: recipeId },
+			include: [
+				{ model: models.recipe, as: 'recipe' },
+				{ model: models.ingredient, as: 'ingredient' },
+			],
+		});
+
+		const recipe = recipeIngredients[0].recipe;
+		const ingredients = recipeIngredients.map((r) => r.ingredient);
+
+		const completeRecipe = {
+			recipe,
+			ingredients,
+		};
+
+		// console.info('all recipes', recipeId, JSON.stringify(recipe, null, 2));
+		res.status(200).send(completeRecipe);
+	} catch (e) {
+		console.info(e);
+	}
+});
 
 // GET - find ingredients from a list of recipes
 
 // GET - find recipes by tag
+	// find the tag id from param
+	// use tag id to search recipe tag to find all recipes
 
 // GET - find all recipes for a planned week
 
