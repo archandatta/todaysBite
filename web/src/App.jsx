@@ -1,11 +1,11 @@
 import './App.css';
 import 'rsuite/dist/rsuite.min.css';
-import { Button } from 'rsuite';
+import { Button } from 'react-bootstrap';
 
 const App = () => {
 	return (
 		<div className="App">
-			<Button appearance="primary"> Hello world </Button>
+			<Button variant="danger">Hello world</Button>
 		</div>
 	);
 };
