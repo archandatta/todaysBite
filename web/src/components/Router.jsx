@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import DashboardPage from './components/pages/DashboardPage';
+import DashboardPage from './pages/DashboardPage';
 
 const About = () => <span>{console.info('about')}</span>;
 
