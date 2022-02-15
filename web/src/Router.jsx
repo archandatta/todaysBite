@@ -1,13 +1,13 @@
 import React from 'react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import ColumnPage from './components/pages/ColumnPage';
+import DashboardPage from './components/pages/DashboardPage';
 
 const About = () => <span>{console.info('about')}</span>;
 
 const Router = () => (
 	<MemoryRouter>
 		<Routes>
-			<Route path="/" element={<ColumnPage />} />
+			<Route path="/" element={<DashboardPage />} />
 			<Route path="/about" element={<About />} />
 		</Routes>
 	</MemoryRouter>
