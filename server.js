@@ -6,6 +6,11 @@ const initModels = require('./models/init-models');
 const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
+app.use(function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
+	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+	next();
+});
 
 const sequelize = new Sequelize('sqlite:todaysbite.db');
 const models = initModels(sequelize);
@@ -70,6 +75,10 @@ app.post('/create-recipe', async (req, res) => {
 
 // PUT - add tag to recipe
 
+app.get('/user', async (req, res) => {
+	res.send('user').status(200);
+});
+
 // GET - find all recipes by user
 // TODO: tags, meal plan
 app.get('/recipe/:id', async (req, res) => {
@@ -102,8 +111,8 @@ app.get('/recipe/:id', async (req, res) => {
 // GET - find ingredients from a list of recipes
 
 // GET - find recipes by tag
-	// find the tag id from param
-	// use tag id to search recipe tag to find all recipes
+// find the tag id from param
+// use tag id to search recipe tag to find all recipes
 
 // GET - find all recipes for a planned week
 
