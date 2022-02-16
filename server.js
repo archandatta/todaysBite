@@ -29,7 +29,10 @@ app.post('/create-user', async (req, res) => {
 	const username = req.body.username;
 	const password = req.body.password;
 	try {
-		const ret = await models.user.create({ username: username, password: password });
+		const [ret] = await models.user.findOrCreate({
+			where: { username: username },
+			defaults: { username: username, password: password },
+		});
 		res.json(ret).status(200);
 	} catch (e) {
 		console.info(e);
