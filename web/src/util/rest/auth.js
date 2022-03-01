@@ -1,11 +1,10 @@
-import axios from 'axios';
+import axiosConfig from '../../axiosConfig';
 
-const authAxios = axios.create({
-	baseURL: 'http://localhost:5000',
-});
-
-const getUser = () => {
-	return authAxios.get('/user');
+const authenticate = (username, password) => {
+	return axiosConfig.post('/create-user', {
+		username: username,
+		password: password,
+	});
 };
 
-export { getUser };
+export { authenticate };

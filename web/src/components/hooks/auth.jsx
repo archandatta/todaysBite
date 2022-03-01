@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { getUser } from '../../util/rest/auth';
+import { authenticate } from '../../util/rest/auth';
 
-export const useAuth = () => {
+export const useAuth = (username, password) => {
 	const [response, setResponse] = useState(null);
 	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(true);
 
 	const fetchData = async () => {
 		try {
-			const user = await getUser();
+			const user = await authenticate(username, password);
 			setResponse(user.data);
 		} catch (e) {
 			setError(e);

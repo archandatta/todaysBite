@@ -1,15 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
-import { useAuth } from '../../hooks/auth';
 
-const RecipeCard = () => {
-	const { response, error } = useAuth();
-	console.info(response, error);
-
+const RecipeCard = ({ recipeData }) => {
 	return (
 		<Card>
 			<Card.Body>
-				<Card.Title>Card Title</Card.Title>
+				<Card.Title>{recipeData.recipe.title}</Card.Title>
 				<Card.Text>
 					Some quick example text to build on the card title and make up the bulk of the card's content.
 				</Card.Text>
@@ -17,6 +14,14 @@ const RecipeCard = () => {
 			</Card.Body>
 		</Card>
 	);
+};
+
+RecipeCard.defaultProps = {
+	recipeData: null,
+};
+
+RecipeCard.propTypes = {
+	recipeData: PropTypes.object,
 };
 
 export default RecipeCard;
