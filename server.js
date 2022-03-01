@@ -85,27 +85,40 @@ app.get('/user', async (req, res) => {
 // GET - find all recipes by user
 // TODO: tags, meal plan
 app.get('/recipe/:id', async (req, res) => {
-	const recipeId = req.params.id;
+	const userId = req.params.id;
+
+	// from user id get all recipe ids
+	// then get all recipe data using ids
 
 	try {
+		const userRecipes = await models.recipe.findAll({
+			where: { userId: userId },
+		});
+
+		const recipeIds = userRecipes.map((r) => r.id);
+
 		const recipeIngredients = await models.recipeIngredient.findAll({
-			where: { recipeId: recipeId },
+			where: { recipeId: recipeIds },
 			include: [
 				{ model: models.recipe, as: 'recipe' },
 				{ model: models.ingredient, as: 'ingredient' },
 			],
 		});
 
-		const recipe = recipeIngredients[0].recipe;
-		const ingredients = recipeIngredients.map((r) => r.ingredient);
-
-		const completeRecipe = {
-			recipe,
-			ingredients,
-		};
+		const recipeData = recipeIds.map((id) => {
+			var ingrediants = [];
+			var recipe;
+			recipeIngredients.map((r) => {
+				if (r.recipeId === id) {
+					recipe = r.recipe;
+					ingrediants.push(r.ingredient);
+				}
+			});
+			return { recipe: recipe, ingredients: ingrediants };
+		});
 
 		// console.info('all recipes', recipeId, JSON.stringify(recipe, null, 2));
-		res.status(200).send(completeRecipe);
+		res.status(200).send(recipeData);
 	} catch (e) {
 		console.info(e);
 	}

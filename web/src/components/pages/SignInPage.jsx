@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
 import Top from '../nav/Top';
-import { useState } from 'react';
 import { authenticate } from '../../util/rest/auth';
 
 const signInPage = {
@@ -21,7 +22,9 @@ const useStyles = makeStyles({
 });
 
 const SignInPage = () => {
+	const navigate = useNavigate();
 	const classes = useStyles();
+
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -34,6 +37,7 @@ const SignInPage = () => {
 			if (username !== '' && password !== '') {
 				const user = await authenticate(username, password);
 				console.info(user);
+				localStorage.setItem('userId', user.data.id);
 				setResponse(user.data);
 			}
 		} catch (e) {
@@ -46,9 +50,9 @@ const SignInPage = () => {
 	useEffect(() => {
 		if (response !== null && !loading) {
 			// push to dashboard with user id
-			console.info(response, error, loading);
+			navigate('/dashboard');
 		}
-	}, [error, loading, response]);
+	}, [error, navigate, loading, response]);
 
 	return (
 		<>
