@@ -1,9 +1,9 @@
 import React from 'react';
 
-import RecipeCard from '../dashboard/recipeCard/RecipeCard';
+import Recipes from '../dashboard/recipeCard/Recipes';
 
 const Dashboard = () => {
-	return <RecipeCard />;
+	return <Recipes />;
 };
 
 export default Dashboard;
