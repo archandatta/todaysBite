@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
+import React, { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
@@ -7,6 +7,9 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import Top from '../../nav/Top';
 import { stepIntputState } from '../../../globals/atoms/step-inputs';
 import StepInput from './StepInput';
+import { recipeIntputState } from '../../../globals/atoms/recipe-input';
+import { ingrediantInputState } from '../../../globals/atoms/ingrediant-inputs';
+import { createRecipe } from '../../../util/rest/recipes';
 
 const stepsForm = {
 	step: 'Enter Step Description',
@@ -29,8 +32,39 @@ const AddIngrediantsForm = () => {
 	const [stepInputs, setStepInputs] = useRecoilState(stepIntputState);
 	const [inputs, setInputs] = useState({ steps: [{ stepNum: 0, description: '' }] });
 
-	// console.info(inputs);
-	// console.info(stepInputs);
+	const recipeInput = useRecoilValue(recipeIntputState);
+	const ingrediantInputs = useRecoilValue(ingrediantInputState);
+
+	const recipeData = {
+		recipeInput,
+		ingrediantInputs,
+		stepInputs,
+	};
+
+	const [response, setResponse] = useState(null);
+	const [error, setError] = useState('');
+	const [loading, setLoading] = useState(true);
+
+	const fetchData = async (recipeData) => {
+		try {
+			const user = await createRecipe(recipeData);
+			console.info(user);
+			localStorage.setItem('userId', 'U1');
+			// localStorage.setItem('userId', user.data.id);
+			setResponse(user.data);
+		} catch (e) {
+			setError(e);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		if (response !== null && !loading) {
+			// push to dashboard with user id
+			navigate('/dashboard');
+		}
+	}, [error, navigate, loading, response]);
 
 	return (
 		<>
@@ -54,7 +88,14 @@ const AddIngrediantsForm = () => {
 								{stepsForm.addButton}
 							</Button>
 
-							<Button variant="primary" onClick={() => navigate('/add-steps')}>
+							<Button
+								variant="primary"
+								onClick={() => {
+									setStepInputs(inputs);
+									fetchData(recipeData);
+									// navigate('/dashboard');
+								}}
+							>
 								{stepsForm.nextButton}
 							</Button>
 						</Form>

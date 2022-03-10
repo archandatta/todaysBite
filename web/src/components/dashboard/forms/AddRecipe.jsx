@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
 import Top from '../../nav/Top';
+import { recipeIntputState } from '../../../globals/atoms/recipe-input';
 
 const recipeForm = {
 	title: 'Enter Title',
@@ -28,9 +30,7 @@ const SignInPage = () => {
 	const classes = useStyles();
 	const navigate = useNavigate();
 
-	const [inputs, setInputs] = useState({ title: '', description: '', prepTime: '', cookTime: '' });
-
-	console.info(inputs);
+	const setRecipeInputs = useSetRecoilState(recipeIntputState);
 
 	return (
 		<>
@@ -44,7 +44,7 @@ const SignInPage = () => {
 								<Form.Control
 									type="title"
 									placeholder={recipeForm.titlePlaceholder}
-									onChange={(e) => setInputs((prev) => ({ ...prev, title: e.target.value }))}
+									onChange={(e) => setRecipeInputs((prev) => ({ ...prev, title: e.target.value }))}
 								/>
 							</Form.Group>
 
@@ -53,7 +53,7 @@ const SignInPage = () => {
 								<Form.Control
 									type="description"
 									placeholder={recipeForm.descriptionPlaceholder}
-									onChange={(e) => setInputs((prev) => ({ ...prev, description: e.target.value }))}
+									onChange={(e) => setRecipeInputs((prev) => ({ ...prev, description: e.target.value }))}
 								/>
 							</Form.Group>
 
@@ -62,7 +62,7 @@ const SignInPage = () => {
 								<Form.Control
 									type="prepTime"
 									placeholder={recipeForm.prepTimePlaceholder}
-									onChange={(e) => setInputs((prev) => ({ ...prev, prepTime: e.target.value }))}
+									onChange={(e) => setRecipeInputs((prev) => ({ ...prev, prepTime: e.target.value }))}
 								/>
 							</Form.Group>
 
@@ -71,7 +71,7 @@ const SignInPage = () => {
 								<Form.Control
 									type="cookTime"
 									placeholder={recipeForm.cookTimePlaceholder}
-									onChange={(e) => setInputs((prev) => ({ ...prev, cookTime: e.target.value }))}
+									onChange={(e) => setRecipeInputs((prev) => ({ ...prev, cookTime: e.target.value }))}
 								/>
 							</Form.Group>
 							<Button variant="primary" onClick={() => navigate('/add-ingrediants')}>

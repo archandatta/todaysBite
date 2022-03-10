@@ -27,8 +27,8 @@ const AddIngrediants = () => {
 	const [ingrediantInputs, setIngrediantInputs] = useRecoilState(ingrediantInputState);
 	const [inputs, setInputs] = useState({ ingrediants: [{ name: '', unit: '', quantity: '' }] });
 
-	// console.info(inputs);
-	// console.info(ingrediantInputs);
+	console.info(inputs);
+	console.info(ingrediantInputs);
 
 	return (
 		<>
@@ -38,18 +38,11 @@ const AddIngrediants = () => {
 					<Col>
 						<Form>
 							{inputs.ingrediants.map((val, index) => (
-								<IngrediantInput
-									key={index.toString()}
-									inputs={ingrediantInputs}
-									val={val}
-									index={index}
-									setInputs={setInputs}
-								/>
+								<IngrediantInput key={index.toString()} inputs={inputs} val={val} index={index} setInputs={setInputs} />
 							))}
 							<Button
 								variant="primary"
 								onClick={() => {
-									setIngrediantInputs(inputs);
 									setIngrediantInputs((prev) => ({
 										ingrediants: [...prev.ingrediants, { name: '', unit: '', quantity: '' }],
 									}));
@@ -57,8 +50,13 @@ const AddIngrediants = () => {
 							>
 								{ingrediantForm.addButton}
 							</Button>
-
-							<Button variant="primary" onClick={() => navigate('/add-steps')}>
+							<Button
+								variant="primary"
+								onClick={() => {
+									setIngrediantInputs(inputs);
+									navigate('/add-steps');
+								}}
+							>
 								{ingrediantForm.nextButton}
 							</Button>
 						</Form>

@@ -31,15 +31,15 @@ const Recipes = () => {
 		fetchData(userId);
 	}, [navigate, userId]);
 
-	useEffect(() => {
-		if (response !== null && !loading) {
-		}
-	}, [error, loading, response]);
+	// useEffect(() => {
+	// 	if (response !== null && !loading) {
+	// 	}
+	// }, [error, loading, response]);
 
 	return (
 		<>
-			{response?.map((recipe) => (
-				<RecipeCard recipeData={recipe} />
+			{response?.map((recipe, index) => (
+				<RecipeCard key={index.toString()} recipeData={recipe} />
 			))}
 		</>
 	);

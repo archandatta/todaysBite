@@ -44,34 +44,40 @@ app.post('/create-user', async (req, res) => {
 app.post('/create-recipe', async (req, res) => {
 	// consider using query params for id
 
-	try {
-		const [recipe] = await models.recipe.findOrCreate({
-			where: { title: req.body.recipe.title },
-			defaults: {
-				...req.body.recipe,
-			},
-		});
+	const recipe = req.body.data.recipeInput;
+	const ingrediants = req.body.data.ingrediantInputs.ingrediants;
+	const steps = req.body.data.stepInputs.steps;
 
-		const [ingredient] = await models.ingredient.findOrCreate({
-			where: { name: req.body.ingredient.name },
-			defaults: {
-				...req.body.ingredient,
-			},
-		});
+	console.info(recipe, ingrediants, steps);
 
-		const [recipeIngredient] = await models.recipeIngredient.findOrCreate({
-			where: { recipeId: recipe.dataValues.id, ingredientId: ingredient.dataValues.id },
-			defaults: {
-				recipeId: recipe.dataValues.id,
-				ingredientId: ingredient.dataValues.id,
-			},
-		});
+	// try {
+	// 	const [recipe] = await models.recipe.findOrCreate({
+	// 		where: { title: req.body.recipe.title },
+	// 		defaults: {
+	// 			...req.body.recipe,
+	// 		},
+	// 	});
 
-		console.info(recipe.dataValues.id, ingredient.dataValues.id, recipeIngredient.dataValues);
-		res.json(recipe).status(200);
-	} catch (e) {
-		console.info(e);
-	}
+	// 	const [ingredient] = await models.ingredient.findOrCreate({
+	// 		where: { name: req.body.ingredient.name },
+	// 		defaults: {
+	// 			...req.body.ingredient,
+	// 		},
+	// 	});
+
+	// 	const [recipeIngredient] = await models.recipeIngredient.findOrCreate({
+	// 		where: { recipeId: recipe.dataValues.id, ingredientId: ingredient.dataValues.id },
+	// 		defaults: {
+	// 			recipeId: recipe.dataValues.id,
+	// 			ingredientId: ingredient.dataValues.id,
+	// 		},
+	// 	});
+
+	// 	console.info(recipe.dataValues.id, ingredient.dataValues.id, recipeIngredient.dataValues);
+	// 	res.json(recipe).status(200);
+	// } catch (e) {
+	// 	console.info(e);
+	// }
 });
 
 // POST - add meal plan

@@ -9,26 +9,25 @@ const recipeForm = {
 	unitPlaceholder: 'unit',
 	quantity: 'Enter Quantity',
 	quantityPlaceholder: 'quantity',
-	button: 'Add Ingrediants',
 };
 
 const IngrediantInput = ({ inputs, val, index, setInputs }) => {
 	return (
 		<>
-			<Form.Group className={`mb-${index}`}>
+			<Form.Group className={`mb-${index}`} controlId="formBasicName">
 				<Form.Label>{recipeForm.name}</Form.Label>
 				<Form.Control
 					placeholder={recipeForm.namePlaceholder}
 					onChange={(e) => {
 						const { value } = e.target;
-						const ingrediants = [...inputs?.ingrediants];
+						const ingrediants = [...inputs.ingrediants];
 						ingrediants[index] = { ...ingrediants[index], name: value };
 						setInputs({ ingrediants });
 					}}
 				/>
 			</Form.Group>
 
-			<Form.Group className={`mb-${index}`}>
+			<Form.Group className={`mb-${index}`} controlId="formBasicQuantity">
 				<Form.Label>{recipeForm.quantity}</Form.Label>
 				<Form.Control
 					placeholder={recipeForm.quantityPlaceholder}
@@ -37,11 +36,12 @@ const IngrediantInput = ({ inputs, val, index, setInputs }) => {
 						const ingrediants = [...inputs?.ingrediants];
 						ingrediants[index] = { ...ingrediants[index], quantity: value };
 						setInputs({ ingrediants });
+						console.info(value, ingrediants);
 					}}
 				/>
 			</Form.Group>
 
-			<Form.Group className={`mb-${index}`}>
+			<Form.Group className={`mb-${index}`} controlId="formBasicUnit">
 				<Form.Label>{recipeForm.unit}</Form.Label>
 				<Form.Control
 					placeholder={recipeForm.unitPlaceholder}
