@@ -6,6 +6,7 @@ var _recipe = require("./recipe");
 var _recipeIngredient = require("./recipeIngredient");
 var _recipeMealPlan = require("./recipeMealPlan");
 var _recipeTag = require("./recipeTag");
+var _step = require("./step");
 var _tag = require("./tag");
 var _user = require("./user");
 
@@ -17,6 +18,7 @@ function initModels(sequelize) {
   var recipeIngredient = _recipeIngredient(sequelize, DataTypes);
   var recipeMealPlan = _recipeMealPlan(sequelize, DataTypes);
   var recipeTag = _recipeTag(sequelize, DataTypes);
+  var step = _step(sequelize, DataTypes);
   var tag = _tag(sequelize, DataTypes);
   var user = _user(sequelize, DataTypes);
 
@@ -30,6 +32,8 @@ function initModels(sequelize) {
   recipe.hasMany(recipeMealPlan, { as: "recipeMealPlans", foreignKey: "recipeId"});
   recipeTag.belongsTo(recipe, { as: "recipe", foreignKey: "recipeId"});
   recipe.hasMany(recipeTag, { as: "recipeTags", foreignKey: "recipeId"});
+  step.belongsTo(recipe, { as: "recipe", foreignKey: "recipeId"});
+  recipe.hasMany(step, { as: "steps", foreignKey: "recipeId"});
   recipeTag.belongsTo(tag, { as: "tag", foreignKey: "tagId"});
   tag.hasMany(recipeTag, { as: "recipeTags", foreignKey: "tagId"});
   recipe.belongsTo(user, { as: "user", foreignKey: "userId"});
@@ -43,6 +47,7 @@ function initModels(sequelize) {
     recipeIngredient,
     recipeMealPlan,
     recipeTag,
+    step,
     tag,
     user,
   };

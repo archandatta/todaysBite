@@ -11,7 +11,6 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'SequelizeMeta',
     timestamps: true,
-    defaultValue: 'UUIDV4',
     indexes: [
       {
         name: "sqlite_autoindex_SequelizeMeta_1",
