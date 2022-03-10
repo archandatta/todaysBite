@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
-import Top from '../nav/Top';
+import Top from '../../nav/Top';
 
 const recipeForm = {
 	title: 'Enter Title',

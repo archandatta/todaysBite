@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
-import Top from '../nav/Top';
-import { stepIntputState } from '../../globals/atoms/step-inputs';
+import Top from '../../nav/Top';
+import { stepIntputState } from '../../../globals/atoms/step-inputs';
 import StepInput from './StepInput';
 
 const stepsForm = {

@@ -12,7 +12,7 @@ const StepInput = ({ inputs, val, index, setInputs }) => {
 		<>
 			<Form.Group className={`mb-${index}`}>
 				<Form.Label>
-					{stepsForm.step} {index}
+					{stepsForm.step} {index + 1}
 				</Form.Label>
 				<Form.Control
 					placeholder={stepsForm.stepPlaceholder}

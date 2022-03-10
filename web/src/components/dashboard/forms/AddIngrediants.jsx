@@ -4,17 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
-import Top from '../nav/Top';
-import { ingrediantInputState } from '../../globals/atoms/ingrediant-inputs';
+import { ingrediantInputState } from '../../../globals/atoms/ingrediant-inputs';
 import IngrediantInput from './IngrediantInput';
+import Top from '../../nav/Top';
 
-const recipeForm = {
-	name: 'Enter name',
-	namePlaceholder: 'name',
-	unit: 'Enter Unit',
-	unitPlaceholder: 'unit',
-	quantity: 'Enter Quantity',
-	quantityPlaceholder: 'quantity',
+const ingrediantForm = {
 	addButton: 'Add Ingrediant',
 	nextButton: 'Next',
 };
@@ -26,7 +20,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const AddIngrediantsForm = () => {
+const AddIngrediants = () => {
 	const classes = useStyles();
 	const navigate = useNavigate();
 
@@ -61,11 +55,11 @@ const AddIngrediantsForm = () => {
 									}));
 								}}
 							>
-								{recipeForm.addButton}
+								{ingrediantForm.addButton}
 							</Button>
 
 							<Button variant="primary" onClick={() => navigate('/add-steps')}>
-								{recipeForm.nextButton}
+								{ingrediantForm.nextButton}
 							</Button>
 						</Form>
 					</Col>
@@ -75,4 +69,4 @@ const AddIngrediantsForm = () => {
 	);
 };
 
-export default AddIngrediantsForm;
+export default AddIngrediants;
