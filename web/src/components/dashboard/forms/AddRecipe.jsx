@@ -6,6 +6,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
 import Top from '../../nav/Top';
 import { recipeIntputState } from '../../../globals/atoms/recipe-input';
+import { useEffect } from 'react';
 
 const recipeForm = {
 	title: 'Enter Title',
@@ -29,8 +30,13 @@ const useStyles = makeStyles({
 const SignInPage = () => {
 	const classes = useStyles();
 	const navigate = useNavigate();
+	const userId = localStorage.getItem('userId');
 
 	const setRecipeInputs = useSetRecoilState(recipeIntputState);
+
+	useEffect(() => {
+		setRecipeInputs((prev) => ({ ...prev, userId: userId }));
+	}, [setRecipeInputs, userId]);
 
 	return (
 		<>
