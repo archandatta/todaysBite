@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
 import Top from '../../nav/Top';
-import { stepIntputState } from '../../../globals/atoms/step-inputs';
 import StepInput from './StepInput';
 import { recipeIntputState } from '../../../globals/atoms/recipe-input';
 import { ingrediantInputState } from '../../../globals/atoms/ingrediant-inputs';
@@ -29,8 +28,7 @@ const AddIngrediantsForm = () => {
 	const classes = useStyles();
 	const navigate = useNavigate();
 
-	const [stepInputs, setStepInputs] = useRecoilState(stepIntputState);
-	const [inputs, setInputs] = useState({ steps: [{ stepNum: 0, description: '' }] });
+	const [stepInputs, setInputs] = useState({ steps: [{ stepNum: 0, description: '' }] });
 
 	const recipeInput = useRecoilValue(recipeIntputState);
 	const ingrediantInputs = useRecoilValue(ingrediantInputState);
@@ -79,8 +77,7 @@ const AddIngrediantsForm = () => {
 							<Button
 								variant="primary"
 								onClick={() => {
-									setStepInputs(inputs);
-									setStepInputs((prev) => ({
+									setInputs((prev) => ({
 										steps: [...prev.steps, { stepNum: 0, description: '' }],
 									}));
 								}}
@@ -91,7 +88,7 @@ const AddIngrediantsForm = () => {
 							<Button
 								variant="primary"
 								onClick={() => {
-									setStepInputs(inputs);
+									setInputs(stepInputs);
 									fetchData(recipeData);
 									// navigate('/dashboard');
 								}}

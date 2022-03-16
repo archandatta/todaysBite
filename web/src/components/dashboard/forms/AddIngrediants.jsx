@@ -43,7 +43,7 @@ const AddIngrediants = () => {
 							<Button
 								variant="primary"
 								onClick={() => {
-									setIngrediantInputs((prev) => ({
+									setInputs((prev) => ({
 										ingrediants: [...prev.ingrediants, { name: '', unit: '', quantity: '' }],
 									}));
 								}}

@@ -42,42 +42,60 @@ app.post('/create-user', async (req, res) => {
 // POST - add recipe
 // TODO: tags
 app.post('/create-recipe', async (req, res) => {
-	// consider using query params for id
+	if (req === undefined) {
+		return res.status(204);
+	}
 
 	const recipe = req.body.data.recipeInput;
 	const ingrediants = req.body.data.ingrediantInputs.ingrediants;
-	const steps = req.body.data.stepInputs.steps;
+	// const steps = req.body.data.stepInputs.steps;
 
-	console.info(recipe, ingrediants, steps);
+	console.info(recipe, ingrediants);
 
-	// try {
-	// 	const [recipe] = await models.recipe.findOrCreate({
-	// 		where: { title: req.body.recipe.title },
-	// 		defaults: {
-	// 			...req.body.recipe,
-	// 		},
-	// 	});
+	try {
+		const [recipeData] = await models.recipe.findOrCreate({
+			where: { title: recipe.title },
+			defaults: {
+				...recipe,
+			},
+		});
 
-	// 	const [ingredient] = await models.ingredient.findOrCreate({
-	// 		where: { name: req.body.ingredient.name },
-	// 		defaults: {
-	// 			...req.body.ingredient,
-	// 		},
-	// 	});
+		const s = await Promise.all(
+			ingrediants.map((i) => {
+				return models.ingredient.findOrCreate({
+					where: { name: i.name },
+					defaults: {
+						i,
+					},
+				});
+			})
+		);
 
-	// 	const [recipeIngredient] = await models.recipeIngredient.findOrCreate({
-	// 		where: { recipeId: recipe.dataValues.id, ingredientId: ingredient.dataValues.id },
-	// 		defaults: {
-	// 			recipeId: recipe.dataValues.id,
-	// 			ingredientId: ingredient.dataValues.id,
-	// 		},
-	// 	});
+		const ingredientData = [];
+		const f = s.map((d) => {
+			const f = JSON.stringify(d[0], null, 2);
+			const ing = JSON.parse(f);
+			ingredientData.push(ing);
+		});
+		console.info(ingredientData);
 
-	// 	console.info(recipe.dataValues.id, ingredient.dataValues.id, recipeIngredient.dataValues);
-	// 	res.json(recipe).status(200);
-	// } catch (e) {
-	// 	console.info(e);
-	// }
+		// const [recipeIngredient] = await models.recipeIngredient.findOrCreate({
+		// 	where: { recipeId: recipe.dataValues.id, ingredientId: ingredient.dataValues.id },
+		// 	defaults: {
+		// 		recipeId: recipe.dataValues.id,
+		// 		ingredientId: ingredient.dataValues.id,
+		// 	},
+		// });
+
+		const data = {
+			recipeData,
+			ingredientData,
+			// recipeIngredient,
+		};
+		res.json(data).status(200);
+	} catch (e) {
+		console.info(e);
+	}
 });
 
 // POST - add meal plan
