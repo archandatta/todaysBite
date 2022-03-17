@@ -16,7 +16,7 @@ const Recipes = () => {
 		try {
 			const recipes = await getRecipes(userId);
 			setResponse(recipes.data);
-			console.info(recipes.data);
+			// console.info(recipes.data);
 		} catch (e) {
 			setError(e);
 		} finally {

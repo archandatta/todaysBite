@@ -131,12 +131,10 @@ app.get('/user', async (req, res) => {
 // TODO: tags, meal plan
 app.get('/recipe/:id', async (req, res) => {
 	const userId = req.params.id;
-	console.info(userId);
-	// from user id get all recipe ids
-	// then get all recipe data using ids
 
 	try {
 		const userRecipes = await models.recipe.findAll({
+			order: [['createdAt', 'DESC']],
 			where: { userId: userId },
 		});
 
