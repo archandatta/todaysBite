@@ -1,18 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import ReactCardFlip from 'react-card-flip';
 import { Card, Button } from 'react-bootstrap';
+import { makeStyles } from '@mui/styles';
+
+const recipeCard = {
+	prepTime: 'Prep Time',
+	cookTime: 'cook Time',
+	seeIngredients: 'See Ingredients',
+	seeSteps: 'See Steps',
+};
+
+const useStyles = makeStyles({
+	root: {
+		marginTop: '2rem',
+		width: '600px',
+	},
+});
 
 const RecipeCard = ({ recipeData }) => {
+	const classes = useStyles();
+	const [isFlipped, setIsFlipped] = useState(false);
+
 	return (
-		<Card>
-			<Card.Body>
-				<Card.Title>{recipeData.recipe.title}</Card.Title>
-				<Card.Text>
-					Some quick example text to build on the card title and make up the bulk of the card's content.
-				</Card.Text>
-				<Button variant="primary">Go somewhere</Button>
-			</Card.Body>
-		</Card>
+		<ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
+			<div className="CardFront">
+				<div>
+					<Card className={classes.root}>
+						<Card.Body>
+							<Card.Title>{recipeData.recipe.title}</Card.Title>
+							<Card.Text>{recipeData.recipe.description}</Card.Text>
+							<Card.Text>
+								{recipeCard.prepTime} {recipeData.recipe.prepTime}
+							</Card.Text>
+							<Card.Text>
+								{recipeCard.cookTime} {recipeData.recipe.cookTime}
+							</Card.Text>
+							<Button variant="primary" onClick={() => setIsFlipped((prev) => !prev)}>
+								{recipeCard.seeIngredients}
+							</Button>
+						</Card.Body>
+					</Card>
+				</div>
+			</div>
+			<div className="CardBack">
+				<Card className={classes.root}>
+					<Card.Body>
+						<ul>
+							{recipeData.ingredients.map((i, idx) => (
+								<li key={idx.toString()}>{i !== null && i.name}</li>
+							))}
+						</ul>
+
+						<Button variant="primary" onClick={() => setIsFlipped((prev) => !prev)}>
+							{recipeCard.seeSteps}
+						</Button>
+					</Card.Body>
+				</Card>
+			</div>
+		</ReactCardFlip>
 	);
 };
 

@@ -16,7 +16,7 @@ const Recipes = () => {
 		try {
 			const recipes = await getRecipes(userId);
 			setResponse(recipes.data);
-			console.info(recipes.data);
+			// console.info(recipes.data);
 		} catch (e) {
 			setError(e);
 		} finally {
@@ -38,8 +38,8 @@ const Recipes = () => {
 
 	return (
 		<>
-			{response?.map((recipe) => (
-				<RecipeCard recipeData={recipe} />
+			{response?.map((recipe, index) => (
+				<RecipeCard key={index.toString()} recipeData={recipe} />
 			))}
 		</>
 	);

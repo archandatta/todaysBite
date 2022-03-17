@@ -39,36 +39,81 @@ app.post('/create-user', async (req, res) => {
 	}
 });
 
+async function findOrCreateIngredients(ingredients) {
+	const data = await Promise.all(
+		ingredients.map((i) => {
+			return models.ingredient.findOrCreate({
+				where: { name: i.name },
+				defaults: {
+					i,
+				},
+			});
+		})
+	);
+
+	const ingredientData = [];
+	data.map((d) => {
+		const ingredientString = JSON.stringify(d[0], null, 2);
+		const ingredientParsed = JSON.parse(ingredientString);
+		ingredientData.push(ingredientParsed);
+	});
+
+	return ingredientData;
+}
+
 // POST - add recipe
 // TODO: tags
 app.post('/create-recipe', async (req, res) => {
-	// consider using query params for id
+	if (req === undefined) {
+		return res.status(204);
+	}
+
+	const recipe = req.body.data.recipeInput;
+	const ingrediants = req.body.data.ingrediantInputs.ingrediants;
+	const steps = req.body.data.stepInputs.steps;
+
+	console.info(recipe, ingrediants, steps);
 
 	try {
-		const [recipe] = await models.recipe.findOrCreate({
-			where: { title: req.body.recipe.title },
+		const [recipeData] = await models.recipe.findOrCreate({
+			where: { userId: recipe.userId, title: recipe.title },
 			defaults: {
-				...req.body.recipe,
+				...recipe,
 			},
 		});
 
-		const [ingredient] = await models.ingredient.findOrCreate({
-			where: { name: req.body.ingredient.name },
-			defaults: {
-				...req.body.ingredient,
-			},
-		});
+		const ingredientData = await findOrCreateIngredients(ingrediants);
+		const ingredientIds = ingredientData.map((i) => i.id);
 
-		const [recipeIngredient] = await models.recipeIngredient.findOrCreate({
-			where: { recipeId: recipe.dataValues.id, ingredientId: ingredient.dataValues.id },
-			defaults: {
-				recipeId: recipe.dataValues.id,
-				ingredientId: ingredient.dataValues.id,
-			},
-		});
+		await Promise.all(
+			ingredientIds.map((i) => {
+				return models.recipeIngredient.findOrCreate({
+					where: { recipeId: recipeData.dataValues.id, ingredientId: i },
+					defaults: {
+						recipeId: recipeData.dataValues.id,
+						ingredientId: i,
+					},
+				});
+			})
+		);
 
-		console.info(recipe.dataValues.id, ingredient.dataValues.id, recipeIngredient.dataValues);
-		res.json(recipe).status(200);
+		await Promise.all(
+			steps.map((s) => {
+				return models.step.findOrCreate({
+					where: { recipeId: recipeData.dataValues.id, stepNum: s.stepNum },
+					defaults: {
+						stepNum: s.stepNum,
+						description: s.description,
+					},
+				});
+			})
+		);
+
+		const data = {
+			recipeData,
+			ingredientData,
+		};
+		res.json(data).status(200);
 	} catch (e) {
 		console.info(e);
 	}
@@ -87,11 +132,9 @@ app.get('/user', async (req, res) => {
 app.get('/recipe/:id', async (req, res) => {
 	const userId = req.params.id;
 
-	// from user id get all recipe ids
-	// then get all recipe data using ids
-
 	try {
 		const userRecipes = await models.recipe.findAll({
+			order: [['createdAt', 'DESC']],
 			where: { userId: userId },
 		});
 

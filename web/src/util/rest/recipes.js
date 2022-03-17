@@ -4,4 +4,10 @@ const getRecipes = (userId) => {
 	return axiosConfig.get(`recipe/${userId}`);
 };
 
-export { getRecipes };
+const createRecipe = (recipeData) => {
+	return axiosConfig.post('/create-recipe', {
+		data: recipeData,
+	});
+};
+
+export { createRecipe, getRecipes };

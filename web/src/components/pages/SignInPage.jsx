@@ -36,7 +36,6 @@ const SignInPage = () => {
 		try {
 			if (username !== '' && password !== '') {
 				const user = await authenticate(username, password);
-				console.info(user);
 				localStorage.setItem('userId', 'U1');
 				// localStorage.setItem('userId', user.data.id);
 				setResponse(user.data);
