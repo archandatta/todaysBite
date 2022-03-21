@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactCardFlip from 'react-card-flip';
 import { Card, Button } from 'react-bootstrap';
 import { makeStyles } from '@mui/styles';
+import { useNavigate } from 'react-router-dom';
 
 const recipeCard = {
 	prepTime: 'Prep Time',
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
 });
 
 const RecipeCard = ({ recipeData }) => {
+	const navigate = useNavigate();
 	const classes = useStyles();
 	const [isFlipped, setIsFlipped] = useState(false);
 
@@ -52,7 +54,7 @@ const RecipeCard = ({ recipeData }) => {
 							))}
 						</ul>
 
-						<Button variant="primary" onClick={() => setIsFlipped((prev) => !prev)}>
+						<Button variant="primary" onClick={() => navigate(`/recipe/${recipeData.recipe.id}`)}>
 							{recipeCard.seeSteps}
 						</Button>
 					</Card.Body>

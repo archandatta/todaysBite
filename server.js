@@ -123,10 +123,6 @@ app.post('/create-recipe', async (req, res) => {
 
 // PUT - add tag to recipe
 
-app.get('/user', async (req, res) => {
-	res.send('user').status(200);
-});
-
 // GET - find all recipes by user
 // TODO: tags, meal plan
 app.get('/recipe/:id', async (req, res) => {
@@ -148,6 +144,10 @@ app.get('/recipe/:id', async (req, res) => {
 			],
 		});
 
+		const steps = await models.step.findAll({
+			where: { recipeId: recipeIds },
+		});
+
 		const recipeData = recipeIds.map((id) => {
 			var ingrediants = [];
 			var recipe;
@@ -157,7 +157,7 @@ app.get('/recipe/:id', async (req, res) => {
 					ingrediants.push(r.ingredient);
 				}
 			});
-			return { recipe: recipe, ingredients: ingrediants };
+			return { recipe: recipe, ingredients: ingrediants, steps: steps };
 		});
 
 		// console.info('all recipes', recipeId, JSON.stringify(recipe, null, 2));

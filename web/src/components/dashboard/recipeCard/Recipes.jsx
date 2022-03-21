@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { recipesState } from '../../../globals/atoms/recipes';
 
 import { getRecipes } from '../../../util/rest/recipes';
 import RecipeCard from './RecipeCard';
@@ -7,6 +9,7 @@ import RecipeCard from './RecipeCard';
 const Recipes = () => {
 	const navigate = useNavigate();
 	const userId = localStorage.getItem('userId');
+	const setRecipes = useSetRecoilState(recipesState);
 
 	const [response, setResponse] = useState(null);
 	const [error, setError] = useState('');
@@ -16,6 +19,7 @@ const Recipes = () => {
 		try {
 			const recipes = await getRecipes(userId);
 			setResponse(recipes.data);
+			setRecipes(recipes.data);
 			// console.info(recipes.data);
 		} catch (e) {
 			setError(e);
