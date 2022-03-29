@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@mui/styles';
+import { Col, Container, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { recipesState } from '../../../globals/atoms/recipes';
@@ -6,7 +8,14 @@ import { recipesState } from '../../../globals/atoms/recipes';
 import { getRecipes } from '../../../util/rest/recipes';
 import RecipeCard from './RecipeCard';
 
+const useStyles = makeStyles({
+	root: {
+		marginTop: '2rem',
+	},
+});
+
 const Recipes = () => {
+	const classes = useStyles();
 	const navigate = useNavigate();
 	const userId = localStorage.getItem('userId');
 	const setRecipes = useSetRecoilState(recipesState);
@@ -41,11 +50,15 @@ const Recipes = () => {
 	}, [error, loading, response]);
 
 	return (
-		<>
-			{response?.map((recipe, index) => (
-				<RecipeCard key={index.toString()} recipeData={recipe} />
-			))}
-		</>
+		<Container className={classes.root} fluid>
+			<Row>
+				{response?.map((recipe, index) => (
+					<Col key={index.toString()}>
+						<RecipeCard key={index.toString()} recipeData={recipe} />
+					</Col>
+				))}
+			</Row>
+		</Container>
 	);
 };
 

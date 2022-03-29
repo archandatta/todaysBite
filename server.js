@@ -145,6 +145,7 @@ app.get('/recipe/:id', async (req, res) => {
 		});
 
 		const steps = await models.step.findAll({
+			order: [['stepNum', 'ASC']],
 			where: { recipeId: recipeIds },
 		});
 
