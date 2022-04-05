@@ -11,7 +11,6 @@ const ColumnPage = (props) => {
 			<Top />
 			<Container fluid>
 				<Row className="justify-content-md-center">
-					<Col xs lg="2"></Col>
 					<Col md="auto">{props.center}</Col>
 					<Col xs lg="2">
 						{props.right}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, Col, Container, Row, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Button, Card, Col, Container, Stack, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import { makeStyles } from '@mui/styles';
 
 const days = ['Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
@@ -12,6 +12,7 @@ const useStyles = makeStyles({
 	},
 	headerCard: {
 		width: '400px',
+		borderRadius: '2rem',
 	},
 });
 
@@ -25,15 +26,15 @@ const MealPlan = ({ recipeId }) => {
 	// the meal plan will always be for the next week
 	// the state needs to be gobal to ensure all the recipes
 	// are showing the right state
-		// use an object to control the state i.e. (Monday: false)
+	// use an object to control the state i.e. (Monday: false)
 
 	return (
-		<Container className={classes.root} fluid="sm">
+		<Container className={classes.root} fluid>
 			<Card className={classes.headerCard}>
-				<Card.Body>Meal Plan</Card.Body>
-				<Row>
-					<Col>
-						<InputGroup className="mb-3">
+				<Card.Title>Meal Plan</Card.Title>
+				<Card.Body>
+					<Stack direction="horizontal">
+						<InputGroup>
 							<DropdownButton variant="outline-secondary" title={day} id="input-group-dropdown-1">
 								<Dropdown.Item href="#" onClick={(e) => setDay('Monday')}>
 									Monday
@@ -44,9 +45,7 @@ const MealPlan = ({ recipeId }) => {
 								<Dropdown.Item href="#">Separated link</Dropdown.Item>
 							</DropdownButton>
 						</InputGroup>
-					</Col>
-					<Col>
-						<InputGroup className="mb-3">
+						<InputGroup>
 							<DropdownButton variant="outline-secondary" title={course} id="input-group-dropdown-1">
 								<Dropdown.Item href="#" onClick={(e) => setCourse('Breakfast')}>
 									Breakfast
@@ -55,8 +54,8 @@ const MealPlan = ({ recipeId }) => {
 								<Dropdown.Item href="#">Dinner</Dropdown.Item>
 							</DropdownButton>
 						</InputGroup>
-					</Col>
-				</Row>
+					</Stack>
+				</Card.Body>
 			</Card>
 		</Container>
 	);
