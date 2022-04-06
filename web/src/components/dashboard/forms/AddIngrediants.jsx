@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 
 import { ingrediantInputState } from '../../../globals/atoms/ingrediant-inputs';
 import IngrediantInput from './IngrediantInput';
 import Top from '../../nav/Top';
+import Forward from '../../icons/Forward';
 
 const ingrediantForm = {
 	addButton: 'Add Ingrediant',
@@ -17,6 +18,26 @@ const useStyles = makeStyles({
 	root: {
 		marginTop: '2rem',
 		width: '400px',
+	},
+	card: {
+		borderRadius: '1rem',
+		borderColor: '#E87121',
+		marginBottom: '1rem',
+	},
+	cardTitle: {
+		fontWeight: '600',
+		fontSize: '24px',
+	},
+	button: {
+		marginTop: '1rem',
+		borderRadius: '0.5rem',
+		color: 'white',
+	},
+	nextButton: {
+		marginLeft: '12rem',
+		marginTop: '1rem',
+		border: '2px solid grey',
+		borderRadius: '3rem',
 	},
 });
 
@@ -34,6 +55,11 @@ const AddIngrediants = () => {
 		<>
 			<Top />
 			<Container className={classes.root} fluid="sm">
+				<Card className={classes.card}>
+					<Card.Body>
+						<Card.Title className={classes.cardTitle}>Add Ingredients</Card.Title>
+					</Card.Body>
+				</Card>
 				<Row>
 					<Col>
 						<Form>
@@ -41,6 +67,7 @@ const AddIngrediants = () => {
 								<IngrediantInput key={index.toString()} inputs={inputs} val={val} index={index} setInputs={setInputs} />
 							))}
 							<Button
+								className={classes.button}
 								variant="primary"
 								onClick={() => {
 									setInputs((prev) => ({
@@ -51,13 +78,14 @@ const AddIngrediants = () => {
 								{ingrediantForm.addButton}
 							</Button>
 							<Button
-								variant="primary"
+								className={classes.nextButton}
+								variant="link"
 								onClick={() => {
 									setIngrediantInputs(inputs);
 									navigate('/add-steps');
 								}}
 							>
-								{ingrediantForm.nextButton}
+								<Forward />
 							</Button>
 						</Form>
 					</Col>

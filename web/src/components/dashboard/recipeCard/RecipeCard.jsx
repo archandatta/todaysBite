@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactCardFlip from 'react-card-flip';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, ListGroup } from 'react-bootstrap';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
+import Back from '../../icons/Back';
 
 const recipeCard = {
 	prepTime: 'Prep Time: ',
@@ -25,42 +26,21 @@ const useStyles = makeStyles({
 		borderRadius: '1.5rem',
 	},
 	title: {
-		position: 'absolute',
-		height: '32px',
-		left: '16px',
-		right: '16px',
-		top: '16px',
-
-		fontStyle: 'normal',
 		fontWeight: '600',
-		fontSize: '24px',
-		lineHeight: '29px',
+		fontSize: '30px',
 		display: 'flex',
-		alignItems: 'left',
 	},
 	body: {
-		position: 'absolute',
-		left: '16px',
-		right: '16px',
-		top: '90px',
-		bottom: '64px',
-
-		fontStyle: 'normal',
-		fontWeight: '400',
-		fontSize: '18px',
-		lineHeight: '20px',
+		paddingTop: '1rem',
+		fontWeight: '500',
+		fontSize: '20px',
+		display: 'flex',
 	},
 	text: {
-		position: 'absolute',
-		left: '16px',
-		right: '16px',
-		top: '150px',
-		bottom: '64px',
-
-		fontStyle: 'normal',
+		paddingTop: '0.5rem',
 		fontWeight: '400',
-		fontSize: '16px',
-		lineHeight: '20px',
+		fontSize: '18px',
+		display: 'flex',
 	},
 	button: {
 		position: 'absolute',
@@ -68,13 +48,20 @@ const useStyles = makeStyles({
 		right: '16px',
 		bottom: '16px',
 		borderRadius: '0.5rem',
+		color: 'white',
+	},
+	stepsButton: {
+		marginTop: '1rem',
+		borderRadius: '0.5rem',
+		color: 'white',
 	},
 	backButton: {
-		position: 'absolute',
-		width: '40px',
-		height: '40px',
-		right: '8px',
-		top: '16px',
+		paddingLeft: '0',
+		display: 'flex',
+	},
+	list: {
+		display: 'flex',
+		paddingLeft: '0',
 	},
 });
 
@@ -101,16 +88,24 @@ const RecipeCard = ({ recipeData }) => {
 			<div className="CardBack">
 				<Card className={classes.backCard}>
 					<Card.Body>
-						<Button className={classes.backButton} onClick={() => setIsFlipped((prev) => !prev)}>
-							back
+						<Button variant="link" className={classes.backButton} onClick={() => setIsFlipped((prev) => !prev)}>
+							<Back />
 						</Button>
-						<ul>
-							{recipeData.ingredients.map((i, idx) => (
-								<li key={idx.toString()}>{i !== null && i.name}</li>
-							))}
-						</ul>
-
-						<Button variant="primary" onClick={() => navigate(`/recipe/${recipeData.recipe.id}`)}>
+						<h2 className="d-flex justify-content-start">Ingredients</h2>
+						<ListGroup variant="flush">
+							{recipeData.ingredients.map(
+								(i, idx) =>
+									i !== null && (
+										<ListGroup.Item className={classes.list} key={idx.toString()} as="li">
+											<div className="ms-2 me-auto">
+												<div>{i.name}</div>
+											</div>
+											{i.quantity} {i.unit}
+										</ListGroup.Item>
+									)
+							)}
+						</ListGroup>
+						<Button className={classes.stepsButton} onClick={() => navigate(`/recipe/${recipeData.recipe.id}`)}>
 							{recipeCard.seeSteps}
 						</Button>
 					</Card.Body>

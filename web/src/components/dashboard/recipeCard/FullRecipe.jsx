@@ -20,13 +20,14 @@ const useStyles = makeStyles({
 		fontWeight: '600',
 		fontSize: '36px',
 	},
-	ingredients: {
+	ingredientTitle: {
+		display: 'flex',
+		width: '400px',
+		justifyContent: 'between',
+	},
+	ingredientList: {
 		paddingTop: '3rem',
 		width: '400px',
-
-		fontStyle: 'normal',
-		fontWeight: '400',
-		fontSize: '18px',
 	},
 	steps: {
 		paddingTop: '3rem',
@@ -36,8 +37,17 @@ const useStyles = makeStyles({
 		fontWeight: '400',
 		fontSize: '18px',
 	},
+	unit: {
+		fontStyle: 'normal',
+		fontWeight: '200',
+		fontSize: '14px',
+	},
 	list: {
 		float: 'left',
+	},
+	listItem: {
+		display: 'flex',
+		paddingLeft: '0',
 	},
 });
 
@@ -58,27 +68,29 @@ const FullRecipe = ({ recipeId }) => {
 				</Card.Body>
 			</Card>
 			<Row>
-				<Col className={classes.ingredients} sm={4}>
-					<h2 className="d-flex justify-content-start">Ingredients</h2>
+				<Col className={classes.ingredientList} sm={4}>
+					<h2 className={classes.ingredientTitle}>Ingredients</h2>
 					<ListGroup variant="flush" numbered>
-						{recipeData.ingredients.map((i, idx) => (
-							<ListGroup.Item key={idx.toString()} as="li" className="d-flex justify-content-between align-items-start">
-								<div className="ms-2 me-auto">
-									<div>{i.name}</div>
-								</div>
-								<Badge bg="primary" pill>
-									{i.quantity}
-									{i.unit}
-								</Badge>
-							</ListGroup.Item>
-						))}
+						{recipeData.ingredients.map(
+							(i, idx) =>
+								i !== null && (
+									<ListGroup.Item className={classes.listItem} key={idx.toString()} as="li">
+										<div className="ms-2 me-auto">
+											<div>{i.name}</div>
+										</div>
+										<Badge className={classes.unit} pill>
+											{i.quantity} {i.unit}
+										</Badge>
+									</ListGroup.Item>
+								)
+						)}
 					</ListGroup>
 				</Col>
 				<Col className={classes.steps} sm={8}>
 					<h2 className="d-flex align-items-start">Steps</h2>
 					<ListGroup variant="flush" numbered>
 						{recipeData.steps.map((i, idx) => (
-							<ListGroup.Item key={idx.toString()} as="li" className="d-flex justify-content-start">
+							<ListGroup.Item key={idx.toString()} as="li" className={classes.listItem}>
 								<div className="ms-2 me-auto">
 									<div>{i.description}</div>
 								</div>

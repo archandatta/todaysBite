@@ -14,6 +14,12 @@ const useStyles = makeStyles({
 		width: '400px',
 		borderRadius: '2rem',
 	},
+	title: {
+		marginTop: '1rem',
+	},
+	stack: {
+		marginLeft: '4rem',
+	},
 });
 
 const MealPlan = ({ recipeId }) => {
@@ -31,9 +37,9 @@ const MealPlan = ({ recipeId }) => {
 	return (
 		<Container className={classes.root} fluid>
 			<Card className={classes.headerCard}>
-				<Card.Title>Meal Plan</Card.Title>
+				<Card.Title className={classes.title}>Meal Plan</Card.Title>
 				<Card.Body>
-					<Stack direction="horizontal">
+					<Stack className={classes.stack} direction="horizontal">
 						<InputGroup>
 							<DropdownButton variant="outline-secondary" title={day} id="input-group-dropdown-1">
 								<Dropdown.Item href="#" onClick={(e) => setDay('Monday')}>
@@ -55,6 +61,7 @@ const MealPlan = ({ recipeId }) => {
 							</DropdownButton>
 						</InputGroup>
 					</Stack>
+					<Card.Text>Monday:</Card.Text>
 				</Card.Body>
 			</Card>
 		</Container>
