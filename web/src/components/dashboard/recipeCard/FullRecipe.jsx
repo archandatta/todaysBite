@@ -39,8 +39,9 @@ const useStyles = makeStyles({
 	},
 	unit: {
 		fontStyle: 'normal',
-		fontWeight: '200',
+		fontWeight: '500',
 		fontSize: '14px',
+		color: '#E87121',
 	},
 	list: {
 		float: 'left',
@@ -78,7 +79,7 @@ const FullRecipe = ({ recipeId }) => {
 										<div className="ms-2 me-auto">
 											<div>{i.name}</div>
 										</div>
-										<Badge className={classes.unit} pill>
+										<Badge bg="light" className={classes.unit} pill>
 											{i.quantity} {i.unit}
 										</Badge>
 									</ListGroup.Item>

@@ -8,7 +8,7 @@ import ColumnPage from './ColumnPage';
 const RecipePage = () => {
 	const { id } = useParams();
 
-	return <ColumnPage center={<FullRecipe recipeId={id} />} right={<MealPlan />} />;
+	return <ColumnPage center={<FullRecipe recipeId={id} />} right={<MealPlan recipeId={id} />} />;
 };
 
 export default RecipePage;

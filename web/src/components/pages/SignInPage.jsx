@@ -19,6 +19,17 @@ const useStyles = makeStyles({
 		marginTop: '2rem',
 		width: '400px',
 	},
+	button: {
+		borderRadius: '0.5rem',
+		color: 'white',
+	},
+	formBox: {
+		height: '50px',
+		borderRadius: '0.5rem',
+	},
+	formLabel: {
+		marginTop: '1rem',
+	},
 });
 
 const SignInPage = () => {
@@ -62,8 +73,9 @@ const SignInPage = () => {
 					<Col>
 						<Form>
 							<Form.Group className="mb-3" controlId="formBasicUsername">
-								<Form.Label>{signInPage.username}</Form.Label>
+								<Form.Label className={classes.formLabel}>{signInPage.username}</Form.Label>
 								<Form.Control
+									className={classes.formBox}
 									type="username"
 									placeholder={signInPage.usernamePlaceholder}
 									onChange={(e) => setUsername(e.target.value)}
@@ -71,14 +83,15 @@ const SignInPage = () => {
 							</Form.Group>
 
 							<Form.Group className="mb-3" controlId="formBasicPassword">
-								<Form.Label>{signInPage.password}</Form.Label>
+								<Form.Label className={classes.formLabel}>{signInPage.password}</Form.Label>
 								<Form.Control
+									className={classes.formBox}
 									type="password"
 									placeholder={signInPage.passwordPlaceholder}
 									onChange={(e) => setPassword(e.target.value)}
 								/>
 							</Form.Group>
-							<Button variant="primary" onClick={() => fetchData()}>
+							<Button className={classes.button} onClick={() => fetchData()}>
 								{signInPage.button}
 							</Button>
 						</Form>
