@@ -219,6 +219,9 @@ app.get('/recipe/:id', async (req, res) => {
 // use tag id to search recipe tag to find all recipes
 
 // GET - find all recipes for a planned week
+app.get('/meal-plan', async (req, res) => {
+	const mealPlan = await models.recipeMealPlan.findAll({});
+});
 
 // This displays message that the server running and listening to specified port
 app.listen(port, () => console.log(`Listening on port ${port}`));

@@ -68,7 +68,10 @@ module.exports = {
 		// Meal Plan table
 		await queryInterface.createTable('meal_plan', {
 			id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, allowNull: false, primaryKey: true },
-			recipe_name: Sequelize.STRING,
+			user_id: {
+				type: Sequelize.UUID,
+				references: { model: 'user', key: 'id' },
+			},
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 		});

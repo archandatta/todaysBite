@@ -27,10 +27,12 @@ const useStyles = makeStyles({
 	},
 	ingredientList: {
 		paddingTop: '3rem',
+		paddingRight: '3rem',
 		width: '400px',
 	},
 	steps: {
 		paddingTop: '3rem',
+		paddingBottom: '3rem',
 		width: '400px',
 
 		fontStyle: 'normal',
@@ -49,6 +51,8 @@ const useStyles = makeStyles({
 	listItem: {
 		display: 'flex',
 		paddingLeft: '0',
+		paddingRight: '0',
+		paddingBottom: '0.5rem',
 	},
 });
 

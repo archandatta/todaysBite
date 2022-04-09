@@ -6,6 +6,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropColumn('recipe_meal_plan', 'day', { type: Sequelize.STRING });
+		await queryInterface.removeColumn('recipe_meal_plan', 'day', { type: Sequelize.STRING });
 	},
 };
