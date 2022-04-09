@@ -120,6 +120,16 @@ app.post('/create-recipe', async (req, res) => {
 });
 
 // POST - add meal plan
+app.post('/create-meal-plan', async (req, res) => {
+	if (req === undefined) {
+		return res.status(204);
+	}
+
+	const mealPlan = req.body.data;
+	console.info(mealPlan);
+
+	
+});
 
 // PUT - add tag to recipe
 

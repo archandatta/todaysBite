@@ -7,6 +7,7 @@ import AddIngrediants from './dashboard/forms/AddIngrediants';
 import AddSteps from './dashboard/forms/AddSteps';
 import SignInPage from './pages/SignInPage';
 import RecipePage from './pages/RecipePage';
+import MealPlanPage from './pages/MealPlanPage';
 
 const Router = () => {
 	return (
@@ -18,6 +19,7 @@ const Router = () => {
 				<Route path="/add-ingrediants" element={<AddIngrediants />} />
 				<Route path="/add-steps" element={<AddSteps />} />
 				<Route path="/recipe/:id" element={<RecipePage />} />
+				<Route path="/meal-plan" element={<MealPlanPage />} />
 			</Routes>
 		</BrowserRouter>
 	);

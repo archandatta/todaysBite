@@ -13,6 +13,7 @@ const Top = () => {
 				<Nav className="me-auto">
 					<Nav.Link href="/dashboard">Dashboard</Nav.Link>
 					<Nav.Link href="/add">Add Recipe</Nav.Link>
+					<Nav.Link href="/meal-plan">Meal Plan</Nav.Link>
 				</Nav>
 			</Container>
 		</Navbar>

@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
-import { Button, Card, Col, Container, Stack, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+import { Button, Card, Container, Stack, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import { recipesState } from '../../../globals/atoms/recipes';
-import { useEffect } from 'react';
+import { mealPlanState } from '../../../globals/atoms/meal-plan';
+import { createMealPlan } from '../../../util/rest/mealPlan';
+import { useMemo } from 'react';
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const courses = ['Breakfast', 'Lunch', 'Dinner'];
@@ -30,43 +34,7 @@ const useStyles = makeStyles({
 
 const MealPlan = ({ recipeId }) => {
 	const classes = useStyles();
-	const [mealPlan, setMealPlan] = useState({
-		Monday: {
-			Breakfast: 'na',
-			Lunch: 'na',
-			Dinner: 'na',
-		},
-		Tuesday: {
-			Breakfast: 'na',
-			Lunch: 'na',
-			Dinner: 'na',
-		},
-		Wednesday: {
-			Breakfast: 'na',
-			Lunch: 'na',
-			Dinner: 'na',
-		},
-		Thrusday: {
-			Breakfast: 'na',
-			Lunch: 'na',
-			Dinner: 'na',
-		},
-		Friday: {
-			Breakfast: 'na',
-			Lunch: 'na',
-			Dinner: 'na',
-		},
-		Saturday: {
-			Breakfast: 'na',
-			Lunch: 'na',
-			Dinner: 'na',
-		},
-		Sunday: {
-			Breakfast: 'na',
-			Lunch: 'na',
-			Dinner: 'na',
-		},
-	});
+	const [mealPlan, setMealPlan] = useRecoilState(mealPlanState);
 
 	const [day, setDay] = useState('Day');
 	const [currDay, setCurrDay] = useState('Day');
@@ -74,6 +42,39 @@ const MealPlan = ({ recipeId }) => {
 
 	const recipes = useRecoilValue(recipesState);
 	const recipeData = recipes?.filter((r) => r.recipe.id === recipeId)[0];
+
+	const mealPlanData = useMemo(
+		() => ({
+			day,
+			recipeId: mealPlan[day][course]?.id,
+			course,
+		}),
+		[course, day, mealPlan]
+	);
+
+	const [response, setResponse] = useState(null);
+	const [error, setError] = useState('');
+	const [loading, setLoading] = useState(true);
+
+	const fetchData = async (mealPlanData) => {
+		try {
+			const user = await createMealPlan(mealPlanData);
+			console.info(user);
+			// localStorage.setItem('userId', 'U1');
+			// localStorage.setItem('userId', user.data.id);
+			// setResponse(user.data);
+		} catch (e) {
+			setError(e);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		if (response !== null && !loading) {
+			// push to dashboard with user id
+		}
+	}, [error, loading, response]);
 
 	return (
 		<Container className={classes.root} fluid>
@@ -102,9 +103,10 @@ const MealPlan = ({ recipeId }) => {
 						<Button
 							className={classes.button}
 							onClick={() => {
-								const plan = mealPlan;
-								plan[day] = { ...plan[day], [course]: recipeData.recipe.title };
+								const plan = { ...mealPlan };
+								plan[day] = { ...plan[day], [course]: recipeData.recipe };
 								setMealPlan(plan);
+								fetchData(mealPlanData);
 							}}
 						>
 							Set Meal
@@ -118,13 +120,21 @@ const MealPlan = ({ recipeId }) => {
 							</Dropdown.Item>
 						))}
 					</DropdownButton>
-					<Card.Text>Breakfast: {mealPlan[currDay]?.Breakfast}</Card.Text>
-					<Card.Text>Lunch: {mealPlan[currDay]?.Lunch}</Card.Text>
-					<Card.Text>Dinner: {mealPlan[currDay]?.Dinner}</Card.Text>
+					<Card.Text>Breakfast: {mealPlan[currDay]?.Breakfast?.title}</Card.Text>
+					<Card.Text>Lunch: {mealPlan[currDay]?.Lunch?.title}</Card.Text>
+					<Card.Text>Dinner: {mealPlan[currDay]?.Dinner?.title}</Card.Text>
 				</Card.Body>
 			</Card>
 		</Container>
 	);
+};
+
+MealPlan.defaultProps = {
+	recipeId: '',
+};
+
+MealPlan.propTypes = {
+	setInputs: PropTypes.string,
 };
 
 export default MealPlan;
