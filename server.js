@@ -125,10 +125,44 @@ app.post('/create-meal-plan', async (req, res) => {
 		return res.status(204);
 	}
 
-	const mealPlan = req.body.data;
+	const recipeTitle = req.body.data.recipeData.title;
+
+	const mealPlan = {
+		day: req.body.data.day,
+		course: req.body.data.course,
+		recipeId: req.body.data.recipeData.id,
+	};
 	console.info(mealPlan);
 
-	
+	try {
+		const [mealPlanData] = await models.mealPlan.findOrCreate({
+			where: { recipeName: recipeTitle },
+			defaults: {
+				recipeName: recipeTitle,
+			},
+		});
+		const mealPlanId = mealPlanData.dataValues.id;
+
+		const [recipeMealPlanData] = await models.recipeMealPlan.findOrCreate({
+			where: { recipeId: mealPlan.recipeId, mealId: mealPlanId, course: mealPlan.course, day: mealPlan.day },
+			defaults: {
+				mealId: mealPlanId,
+				day: req.body.data.day,
+				course: req.body.data.course,
+				recipeId: req.body.data.recipeData.id,
+			},
+		});
+
+		console.info(recipeMealPlanData);
+		const data = {
+			mealPlanData,
+			recipeMealPlanData,
+		};
+
+		res.json(data).status(200);
+	} catch (e) {
+		console.info(e);
+	}
 });
 
 // PUT - add tag to recipe

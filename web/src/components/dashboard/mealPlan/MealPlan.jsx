@@ -46,7 +46,7 @@ const MealPlan = ({ recipeId }) => {
 	const mealPlanData = useMemo(
 		() => ({
 			day,
-			recipeId: mealPlan[day][course]?.id,
+			recipeData: mealPlan[day][course],
 			course,
 		}),
 		[course, day, mealPlan]

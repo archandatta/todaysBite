@@ -1,10 +1,11 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define(
+module.exports = function (sequelize, DataTypes) {
+	return sequelize.define(
 		'recipeMealPlan',
 		{
 			recipeId: {
 				type: DataTypes.UUID,
+				primaryKey: true,
 				allowNull: true,
 				references: {
 					model: 'recipe',
@@ -14,6 +15,7 @@ module.exports = function(sequelize, DataTypes) {
 			},
 			mealId: {
 				type: DataTypes.UUID,
+				primaryKey: true,
 				allowNull: true,
 				references: {
 					model: 'meal_plan',
