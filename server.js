@@ -125,7 +125,7 @@ app.post('/create-meal-plan', async (req, res) => {
 		return res.status(204);
 	}
 
-	const recipeTitle = req.body.data.recipeData.title;
+	const userId = req.body.data.userId;
 
 	const mealPlan = {
 		day: req.body.data.day,
@@ -136,9 +136,9 @@ app.post('/create-meal-plan', async (req, res) => {
 
 	try {
 		const [mealPlanData] = await models.mealPlan.findOrCreate({
-			where: { recipeName: recipeTitle },
+			where: { userId: userId },
 			defaults: {
-				recipeName: recipeTitle,
+				userId: userId,
 			},
 		});
 		const mealPlanId = mealPlanData.dataValues.id;
@@ -188,6 +188,7 @@ app.get('/recipe/:id', async (req, res) => {
 			],
 		});
 
+		// TODO: get steps for each recipe
 		const steps = await models.step.findAll({
 			order: [['stepNum', 'ASC']],
 			where: { recipeId: recipeIds },
@@ -219,8 +220,27 @@ app.get('/recipe/:id', async (req, res) => {
 // use tag id to search recipe tag to find all recipes
 
 // GET - find all recipes for a planned week
-app.get('/meal-plan', async (req, res) => {
-	const mealPlan = await models.recipeMealPlan.findAll({});
+app.get('/meal-plan/:id', async (req, res) => {
+	const userId = req.params.id;
+
+	try {
+		const [mealPlan] = await models.mealPlan.findAll({
+			where: { userId: userId },
+		});
+		const mealPlanId = mealPlan.dataValues.id;
+
+		const recipeMealPlan = await models.recipeMealPlan.findAll({
+			where: { mealId: mealPlanId },
+		});
+
+		const me = recipeMealPlan.map((m) => {
+			const plan = JSON.parse(JSON.stringify(m, null, 2));
+		});
+
+		console.info(me);
+	} catch (e) {
+		console.info(e);
+	}
 });
 
 // This displays message that the server running and listening to specified port

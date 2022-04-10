@@ -1,8 +1,8 @@
 import axiosConfig from '../../axiosConfig';
 
-// const getRecipes = (userId) => {
-// 	return axiosConfig.get(`recipe/${userId}`);
-// };
+const getMealPlan = (userId) => {
+	return axiosConfig.get(`meal-plan/${userId}`);
+};
 
 const createMealPlan = (mealPlanData) => {
 	return axiosConfig.post('/create-meal-plan', {
@@ -10,4 +10,4 @@ const createMealPlan = (mealPlanData) => {
 	});
 };
 
-export { createMealPlan };
+export { createMealPlan, getMealPlan };

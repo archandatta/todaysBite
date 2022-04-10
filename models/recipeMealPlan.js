@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-module.exports = function (sequelize, DataTypes) {
-	return sequelize.define(
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define(
 		'recipeMealPlan',
 		{
 			recipeId: {

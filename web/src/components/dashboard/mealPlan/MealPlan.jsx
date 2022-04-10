@@ -35,6 +35,7 @@ const useStyles = makeStyles({
 const MealPlan = ({ recipeId }) => {
 	const classes = useStyles();
 	const [mealPlan, setMealPlan] = useRecoilState(mealPlanState);
+	const userId = localStorage.getItem('userId');
 
 	const [day, setDay] = useState('Day');
 	const [currDay, setCurrDay] = useState('Day');
@@ -48,8 +49,9 @@ const MealPlan = ({ recipeId }) => {
 			day,
 			recipeData: mealPlan[day][course],
 			course,
+			userId: userId,
 		}),
-		[course, day, mealPlan]
+		[course, day, mealPlan, userId]
 	);
 
 	const [response, setResponse] = useState(null);
