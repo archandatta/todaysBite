@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Container } from 'react-bootstrap';
 import { makeStyles } from '@mui/styles';
+import { useRecoilState } from 'recoil';
 
-import { useRecoilValue } from 'recoil';
 import { mealPlanState } from '../../../globals/atoms/meal-plan';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles({
 	root: {
@@ -28,10 +29,15 @@ const useStyles = makeStyles({
 	},
 });
 
-const MealPlanCard = ({ day }) => {
+const MealPlanCard = ({ day, mealPlanData }) => {
 	const classes = useStyles();
-	const mealPlan = useRecoilValue(mealPlanState);
-	console.info(mealPlan[day]);
+	const [mealPlan, setMealPlan] = useRecoilState(mealPlanState);
+
+	useEffect(() => {
+		const plans = { ...mealPlan };
+		mealPlanData?.map((m) => (plans[m.day] = { ...plans[m.day], [m.course]: m.recipeId }));
+		return setMealPlan(plans);
+	}, [mealPlanData]);
 
 	return (
 		<Container className={classes.root}>

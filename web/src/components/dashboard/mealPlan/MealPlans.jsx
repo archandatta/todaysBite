@@ -24,11 +24,9 @@ const Recipes = () => {
 
 	const fetchData = async (userId) => {
 		try {
-			const user = await getMealPlan(userId);
-			console.info(user);
-			// localStorage.setItem('userId', 'U1');
-			// localStorage.setItem('userId', user.data.id);
-			// setResponse(user.data);
+			const mealPlans = await getMealPlan(userId);
+			console.info(mealPlans);
+			setResponse(mealPlans.data);
 		} catch (e) {
 			setError(e);
 		} finally {
@@ -51,7 +49,7 @@ const Recipes = () => {
 			<Row>
 				{days?.map((day, index) => (
 					<Col key={index.toString()}>
-						<MealPlanCard key={index.toString()} day={day} />
+						<MealPlanCard key={index.toString()} day={day} mealPlanData={response} />
 					</Col>
 				))}
 			</Row>

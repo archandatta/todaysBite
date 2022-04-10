@@ -132,7 +132,7 @@ app.post('/create-meal-plan', async (req, res) => {
 		course: req.body.data.course,
 		recipeId: req.body.data.recipeData.id,
 	};
-	console.info(mealPlan);
+	console.info(req.body.data);
 
 	try {
 		const [mealPlanData] = await models.mealPlan.findOrCreate({
@@ -233,11 +233,12 @@ app.get('/meal-plan/:id', async (req, res) => {
 			where: { mealId: mealPlanId },
 		});
 
-		const me = recipeMealPlan.map((m) => {
-			const plan = JSON.parse(JSON.stringify(m, null, 2));
+		const plan = recipeMealPlan.map((m) => {
+			return JSON.parse(JSON.stringify(m, null, 2));
 		});
 
-		console.info(me);
+		console.info(plan);
+		res.status(200).send(plan);
 	} catch (e) {
 		console.info(e);
 	}
