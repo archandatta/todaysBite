@@ -266,8 +266,7 @@ app.get('/get-ingredients/:id', async (req, res) => {
 			return r.ingredients;
 		});
 
-		console.info(ingredients.flat());
-		// return res.status(200).send(plan);
+		return res.status(200).send(ingredients.flat());
 	} catch (e) {
 		console.info(e);
 	}

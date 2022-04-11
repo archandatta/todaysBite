@@ -59,7 +59,9 @@ const Recipes = () => {
 					</Col>
 				))}
 			</Row>
-			<Button className={classes.button}>Ingredients</Button>
+			<Button href="/grocery-list" className={classes.button}>
+				Ingredients
+			</Button>
 		</Container>
 	);
 };
