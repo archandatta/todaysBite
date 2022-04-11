@@ -31,6 +31,11 @@ module.exports = function(sequelize, DataTypes) {
 				type: DataTypes.STRING(255),
 				allowNull: true,
 			},
+			recipeName: {
+				type: DataTypes.STRING(255),
+				allowNull: true,
+				field: 'recipe_name',
+			},
 		},
 		{
 			sequelize,

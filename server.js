@@ -150,6 +150,7 @@ app.post('/create-meal-plan', async (req, res) => {
 				day: req.body.data.day,
 				course: req.body.data.course,
 				recipeId: req.body.data.recipeData.id,
+				recipeName: req.body.data.recipeData.title,
 			},
 		});
 
@@ -227,6 +228,11 @@ app.get('/meal-plan/:id', async (req, res) => {
 		const [mealPlan] = await models.mealPlan.findAll({
 			where: { userId: userId },
 		});
+
+		if (mealPlan === undefined) {
+			return res.status(404);
+		}
+
 		const mealPlanId = mealPlan.dataValues.id;
 
 		const recipeMealPlan = await models.recipeMealPlan.findAll({
@@ -238,7 +244,7 @@ app.get('/meal-plan/:id', async (req, res) => {
 		});
 
 		console.info(plan);
-		res.status(200).send(plan);
+		return res.status(200).send(plan);
 	} catch (e) {
 		console.info(e);
 	}

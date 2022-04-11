@@ -35,7 +35,7 @@ const MealPlanCard = ({ day, mealPlanData }) => {
 
 	useEffect(() => {
 		const plans = { ...mealPlan };
-		mealPlanData?.map((m) => (plans[m.day] = { ...plans[m.day], [m.course]: m.recipeId }));
+		mealPlanData?.map((m) => (plans[m.day] = { ...plans[m.day], [m.course]: m.recipeName }));
 		return setMealPlan(plans);
 	}, [mealPlanData]);
 
