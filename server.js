@@ -215,6 +215,63 @@ app.get('/recipe/:id', async (req, res) => {
 });
 
 // GET - find ingredients from a list of recipes
+app.get('/get-ingredients/:id', async (req, res) => {
+	// take all the recipes in the meal plan
+	// find all ingredients of the recipes
+	// compile them into one list
+
+	const userId = req.params.id;
+
+	try {
+		const [mealPlan] = await models.mealPlan.findAll({
+			where: { userId: userId },
+		});
+
+		if (mealPlan === undefined) {
+			return res.status(404);
+		}
+
+		const mealPlanId = mealPlan.dataValues.id;
+
+		const recipeMealPlan = await models.recipeMealPlan.findAll({
+			where: { mealId: mealPlanId },
+		});
+
+		const recipeIds = recipeMealPlan.map((m) => {
+			const recipeMealPlan = JSON.parse(JSON.stringify(m, null, 2));
+			return recipeMealPlan.recipeId;
+		});
+
+		const recipeIngredients = await models.recipeIngredient.findAll({
+			where: { recipeId: recipeIds },
+			include: [
+				{ model: models.recipe, as: 'recipe' },
+				{ model: models.ingredient, as: 'ingredient' },
+			],
+		});
+
+		const recipeData = recipeIds.map((id) => {
+			var ingredients = [];
+			var recipe;
+			recipeIngredients.map((r) => {
+				if (r.recipeId === id) {
+					recipe = r.recipe;
+					ingredients.push(JSON.parse(JSON.stringify(r.ingredient, null, 2)));
+				}
+			});
+			return { recipe: recipe, ingredients: ingredients };
+		});
+
+		const ingredients = recipeData.map((r) => {
+			return r.ingredients;
+		});
+
+		console.info(ingredients.flat());
+		// return res.status(200).send(plan);
+	} catch (e) {
+		console.info(e);
+	}
+});
 
 // GET - find recipes by tag
 // find the tag id from param

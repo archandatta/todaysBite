@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 	button: {
 		width: '100%',
 		color: 'white',
+		borderRadius: '0.5rem',
 	},
 });
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Container } from 'react-bootstrap';
+import { Button, Card, Container } from 'react-bootstrap';
 import { makeStyles } from '@mui/styles';
 import { useRecoilState } from 'recoil';
 
@@ -10,11 +10,11 @@ import { useEffect } from 'react';
 const useStyles = makeStyles({
 	root: {
 		marginTop: '2rem',
-		width: '200px',
+		width: '400px',
 	},
 	card: {
 		borderRadius: '1.5rem',
-		width: '200px',
+		width: '300px',
 	},
 	title: {
 		fontWeight: '600',
@@ -26,6 +26,10 @@ const useStyles = makeStyles({
 		fontWeight: '500',
 		fontSize: '20px',
 		display: 'flex',
+	},
+	link: {
+		padding: '0',
+		color: 'black',
 	},
 });
 
@@ -44,7 +48,12 @@ const MealPlanCard = ({ day, mealPlanData }) => {
 			<Card className={classes.card}>
 				<Card.Body>
 					<Card.Title className={classes.title}>{day}</Card.Title>
-					<Card.Text className={classes.body}>Breakfast: {mealPlan[day]?.Breakfast}</Card.Text>
+					<Card.Text className={classes.body}>
+						Breakfast:
+						<Button variant="link" className={classes.link}>
+							{mealPlan[day]?.Breakfast}
+						</Button>
+					</Card.Text>
 					<Card.Text className={classes.body}>Lunch: {mealPlan[day]?.Lunch}</Card.Text>
 					<Card.Text className={classes.body}>Dinner: {mealPlan[day]?.Dinner}</Card.Text>
 				</Card.Body>

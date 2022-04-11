@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 
 import MealPlanCard from './MealPlanCard';
 import { useState } from 'react';
@@ -11,6 +11,12 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 const useStyles = makeStyles({
 	root: {
 		marginTop: '2rem',
+	},
+	button: {
+		marginTop: '2rem',
+		width: '200px',
+		color: 'white',
+		borderRadius: '0.5rem',
 	},
 });
 
@@ -53,6 +59,7 @@ const Recipes = () => {
 					</Col>
 				))}
 			</Row>
+			<Button className={classes.button}>Ingredients</Button>
 		</Container>
 	);
 };
