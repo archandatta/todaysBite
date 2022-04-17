@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
-import { useRecoilValue } from 'recoil';
-import { Card, ListGroup, Col, Stack, Row, Badge } from 'react-bootstrap';
+import { Card, ListGroup, Stack, Badge } from 'react-bootstrap';
 
 import { getGroceryList } from '../../../util/rest/mealPlan';
 
@@ -25,7 +24,6 @@ const useStyles = makeStyles({
 	},
 	ingredientList: {
 		paddingTop: '3rem',
-		paddingRight: '3rem',
 		marginBottom: '4rem',
 	},
 	unit: {
@@ -53,7 +51,17 @@ const GroceryList = ({ recipeId }) => {
 	const fetchData = async (userId) => {
 		try {
 			const ingredients = await getGroceryList(userId);
-			console.info(ingredients);
+			// ingredients.data.map((value, idx, elements) => {
+			// 	const next = elements[idx + 1];
+			// 	var list = [];
+			// 	ingredients.data.map((i) => {
+			// 		if (i.name === next.name) {
+			// 			list.push(i);
+			// 		}
+			// 	});
+			// 	console.info(list);
+			// return list;
+			// });
 			setResponse(ingredients.data);
 		} catch (e) {
 			setError(e);

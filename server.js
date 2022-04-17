@@ -216,8 +216,6 @@ app.get('/recipe/:id', async (req, res) => {
 
 // GET - find ingredients from a list of recipes
 app.get('/get-ingredients/:id', async (req, res) => {
-	// take all the recipes in the meal plan
-	// find all ingredients of the recipes
 	// compile them into one list
 
 	const userId = req.params.id;
@@ -256,17 +254,22 @@ app.get('/get-ingredients/:id', async (req, res) => {
 			recipeIngredients.map((r) => {
 				if (r.recipeId === id) {
 					recipe = r.recipe;
+					if (r.ingredient === null) {
+						return;
+					}
 					ingredients.push(JSON.parse(JSON.stringify(r.ingredient, null, 2)));
 				}
 			});
 			return { recipe: recipe, ingredients: ingredients };
 		});
 
-		const ingredients = recipeData.map((r) => {
-			return r.ingredients;
-		});
+		const ingredients = recipeData
+			.map((r) => {
+				return r.ingredients;
+			})
+			.flat();
 
-		return res.status(200).send(ingredients.flat());
+		return res.status(200).send(ingredients);
 	} catch (e) {
 		console.info(e);
 	}
