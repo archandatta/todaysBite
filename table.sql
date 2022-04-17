@@ -75,7 +75,7 @@ insert into recipe_ingredient values ("R3", "I33", 13, "11:42:35", "11:42:35");
 insert into tag values ("T1", "Fish", "11:42:35", "11:42:35");
 insert into tag values ("T2", "Meat", "11:42:35", "11:42:35");
 insert into tag values ("T3", "Chicken", "11:42:35", "11:42:35");
-insert into tag values ("T3", "Turkey", "11:42:35", "11:42:35");
+insert into tag values ("T4", "Turkey", "11:42:35", "11:42:35");
 
 insert into recipe_tag values ("R1", "T1", "11:42:35", "11:42:35");
 insert into recipe_tag values ("R2", "T2", "11:42:35", "11:42:35");
@@ -83,12 +83,15 @@ insert into recipe_tag values ("R2", "T3", "11:42:35", "11:42:35");
 insert into recipe_tag values ("R3", "T2", "11:42:35", "11:42:35");
 insert into recipe_tag values ("R3", "T3", "11:42:35", "11:42:35");
 
-insert into meal_plan values ("M1", "Smoky Barramundi with Remoulade", "11:42:35", "11:42:35");
-insert into meal_plan values ("M2", "Cheesy Chicken Milanese", "11:42:35", "11:42:35");
-insert into meal_plan values ("M3", "Mini Turkey Meatloaves", "11:42:35", "11:42:35");
+insert into meal_plan values ("M1", "U1", "11:42:35", "11:42:35");
+insert into meal_plan values ("M2", "U1", "11:42:35", "11:42:35");
+insert into meal_plan values ("M3", "U1", "11:42:35", "11:42:35");
 
-insert into recipe_meal_plan values ("R1", "M1", "Dinner", "11:42:35", "11:42:35");
-insert into recipe_meal_plan values ("R2", "M2", "Lunch", "11:42:35", "11:42:35");
-insert into recipe_meal_plan values ("R3", "M3", "Dinner", "11:42:35", "11:42:35");
+insert into step values ("S1", "1", "Core then cut apples into 1/2-inch pieces. Whisk together Dijion, vinegar, 1 tsb sugar and 2 tbsp oil in a large bowl. Season with salt. Add the apples and toss together. Set aside.", "R1", "11:42:35", "11:42:35");
+insert into step values ("S2", "2", "Pat chicken dry with paper towels. Carefully slice into the centre of each chicken breast, lengthwise and parallel to the cutting board, leaving ½-inch intact on the other end. Open up chicken like a book. Season both sides with salt and pepper. Pour panko into a shallow dish. Coat chicken all over with mayo. Working with one chicken breast at a time, press each breast into panko to coat completely.", "R1", "11:42:35", "11:42:35");
+insert into step values ("S3", "3", "Heat a large non-stick pan over medium-high heat. When hot, add 2 tbsp oil (dbl for 4 ppl), then chicken. Pan-fry, on one side, until golden-brown, 4-5 min. Flip each breast and add another 1 tbsp oil (dbl for 4 ppl). Pan-fry, until golden brown, 4-5 min. (NOTE: Don't overcrowd the pan. Cook in batches for 4ppl) Transfer to a foil-lined baking sheet.", "R1", "11:42:35", "11:42:35");
+insert into step values ("S4", "4", "Evenly sprinkle the cheese over top of the chicken. Broil in the middle of the oven, until cheese is golden and chicken is cooked through, 2-3 min.", "R1", "11:42:35", "11:42:35");
+insert into step values ("S5", "5", "While the chicken broils, halve the tomatoes. Add spring mix and tomatoes to the bowl with the apples, then toss together.", "R1", "11:42:35", "11:42:35");
+insert into step values ("S6", "5", "Divide chicken Milanese and salad between plates.", "R1", "11:42:35", "11:42:35");
 
 COMMIT;

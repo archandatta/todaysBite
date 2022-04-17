@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form } from 'react-bootstrap';
+import { makeStyles } from '@mui/styles';
+
+import { Form, Stack } from 'react-bootstrap';
 
 const recipeForm = {
 	name: 'Enter name',
@@ -11,12 +13,25 @@ const recipeForm = {
 	quantityPlaceholder: 'quantity',
 };
 
+const useStyles = makeStyles({
+	formLabel: {
+		marginTop: '1rem',
+	},
+	formBox: {
+		height: '50px',
+		borderRadius: '0.5rem',
+	},
+});
+
 const IngrediantInput = ({ inputs, val, index, setInputs }) => {
+	const classes = useStyles();
+
 	return (
-		<>
+		<Stack direction='horizontal' gap={4}>
 			<Form.Group className={`mb-${index}`} controlId="formBasicName">
-				<Form.Label>{recipeForm.name}</Form.Label>
+				<Form.Label className={classes.formLabel}>{recipeForm.name}</Form.Label>
 				<Form.Control
+					className={classes.formBox}
 					placeholder={recipeForm.namePlaceholder}
 					onChange={(e) => {
 						const { value } = e.target;
@@ -28,8 +43,9 @@ const IngrediantInput = ({ inputs, val, index, setInputs }) => {
 			</Form.Group>
 
 			<Form.Group className={`mb-${index}`} controlId="formBasicQuantity">
-				<Form.Label>{recipeForm.quantity}</Form.Label>
+				<Form.Label className={classes.formLabel}>{recipeForm.quantity}</Form.Label>
 				<Form.Control
+					className={classes.formBox}
 					placeholder={recipeForm.quantityPlaceholder}
 					onChange={(e) => {
 						const { value } = e.target;
@@ -42,8 +58,9 @@ const IngrediantInput = ({ inputs, val, index, setInputs }) => {
 			</Form.Group>
 
 			<Form.Group className={`mb-${index}`} controlId="formBasicUnit">
-				<Form.Label>{recipeForm.unit}</Form.Label>
+				<Form.Label className={classes.formLabel}>{recipeForm.unit}</Form.Label>
 				<Form.Control
+					className={classes.formBox}
 					placeholder={recipeForm.unitPlaceholder}
 					onChange={(e) => {
 						const { value } = e.target;
@@ -53,7 +70,7 @@ const IngrediantInput = ({ inputs, val, index, setInputs }) => {
 					}}
 				/>
 			</Form.Group>
-		</>
+		</ Stack>
 	);
 };
 

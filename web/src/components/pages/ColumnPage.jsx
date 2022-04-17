@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Container, Row, Col } from 'react-bootstrap';
-import Side from '../nav/Side';
 import Top from '../nav/Top';
 
 const ColumnPage = (props) => {
@@ -12,9 +11,6 @@ const ColumnPage = (props) => {
 			<Top />
 			<Container fluid>
 				<Row className="justify-content-md-center">
-					<Col xs lg="2">
-						<Side />
-					</Col>
 					<Col md="auto">{props.center}</Col>
 					<Col xs lg="2">
 						{props.right}

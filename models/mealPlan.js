@@ -10,17 +10,20 @@ module.exports = function(sequelize, DataTypes) {
 				primaryKey: true,
 				unique: true,
 			},
-			recipeName: {
-				type: DataTypes.STRING(255),
+			userId: {
+				type: DataTypes.UUID,
 				allowNull: true,
-				field: 'recipe_name',
+				references: {
+					model: 'user',
+					key: 'id',
+				},
+				field: 'user_id',
 			},
 		},
 		{
 			sequelize,
 			tableName: 'meal_plan',
 			timestamps: true,
-			defaultValue: 'UUIDV4',
 			indexes: [
 				{
 					name: 'sqlite_autoindex_meal_plan_1',

@@ -120,12 +120,53 @@ app.post('/create-recipe', async (req, res) => {
 });
 
 // POST - add meal plan
+app.post('/create-meal-plan', async (req, res) => {
+	if (req === undefined) {
+		return res.status(204);
+	}
+
+	const userId = req.body.data.userId;
+
+	const mealPlan = {
+		day: req.body.data.day,
+		course: req.body.data.course,
+		recipeId: req.body.data.recipeData.id,
+	};
+	console.info(req.body.data);
+
+	try {
+		const [mealPlanData] = await models.mealPlan.findOrCreate({
+			where: { userId: userId },
+			defaults: {
+				userId: userId,
+			},
+		});
+		const mealPlanId = mealPlanData.dataValues.id;
+
+		const [recipeMealPlanData] = await models.recipeMealPlan.findOrCreate({
+			where: { recipeId: mealPlan.recipeId, mealId: mealPlanId, course: mealPlan.course, day: mealPlan.day },
+			defaults: {
+				mealId: mealPlanId,
+				day: req.body.data.day,
+				course: req.body.data.course,
+				recipeId: req.body.data.recipeData.id,
+				recipeName: req.body.data.recipeData.title,
+			},
+		});
+
+		console.info(recipeMealPlanData);
+		const data = {
+			mealPlanData,
+			recipeMealPlanData,
+		};
+
+		res.json(data).status(200);
+	} catch (e) {
+		console.info(e);
+	}
+});
 
 // PUT - add tag to recipe
-
-app.get('/user', async (req, res) => {
-	res.send('user').status(200);
-});
 
 // GET - find all recipes by user
 // TODO: tags, meal plan
@@ -148,6 +189,12 @@ app.get('/recipe/:id', async (req, res) => {
 			],
 		});
 
+		// TODO: get steps for each recipe
+		const steps = await models.step.findAll({
+			order: [['stepNum', 'ASC']],
+			where: { recipeId: recipeIds },
+		});
+
 		const recipeData = recipeIds.map((id) => {
 			var ingrediants = [];
 			var recipe;
@@ -157,7 +204,7 @@ app.get('/recipe/:id', async (req, res) => {
 					ingrediants.push(r.ingredient);
 				}
 			});
-			return { recipe: recipe, ingredients: ingrediants };
+			return { recipe: recipe, ingredients: ingrediants, steps: steps };
 		});
 
 		// console.info('all recipes', recipeId, JSON.stringify(recipe, null, 2));
@@ -168,12 +215,99 @@ app.get('/recipe/:id', async (req, res) => {
 });
 
 // GET - find ingredients from a list of recipes
+app.get('/get-ingredients/:id', async (req, res) => {
+	// compile them into one list
+
+	const userId = req.params.id;
+
+	try {
+		const [mealPlan] = await models.mealPlan.findAll({
+			where: { userId: userId },
+		});
+
+		if (mealPlan === undefined) {
+			return res.status(404);
+		}
+
+		const mealPlanId = mealPlan.dataValues.id;
+
+		const recipeMealPlan = await models.recipeMealPlan.findAll({
+			where: { mealId: mealPlanId },
+		});
+
+		const recipeIds = recipeMealPlan.map((m) => {
+			const recipeMealPlan = JSON.parse(JSON.stringify(m, null, 2));
+			return recipeMealPlan.recipeId;
+		});
+
+		const recipeIngredients = await models.recipeIngredient.findAll({
+			where: { recipeId: recipeIds },
+			include: [
+				{ model: models.recipe, as: 'recipe' },
+				{ model: models.ingredient, as: 'ingredient' },
+			],
+		});
+
+		const recipeData = recipeIds.map((id) => {
+			var ingredients = [];
+			var recipe;
+			recipeIngredients.map((r) => {
+				if (r.recipeId === id) {
+					recipe = r.recipe;
+					if (r.ingredient === null) {
+						return;
+					}
+					ingredients.push(JSON.parse(JSON.stringify(r.ingredient, null, 2)));
+				}
+			});
+			return { recipe: recipe, ingredients: ingredients };
+		});
+
+		const ingredients = recipeData
+			.map((r) => {
+				return r.ingredients;
+			})
+			.flat();
+
+		return res.status(200).send(ingredients);
+	} catch (e) {
+		console.info(e);
+	}
+});
 
 // GET - find recipes by tag
 // find the tag id from param
 // use tag id to search recipe tag to find all recipes
 
 // GET - find all recipes for a planned week
+app.get('/meal-plan/:id', async (req, res) => {
+	const userId = req.params.id;
+
+	try {
+		const [mealPlan] = await models.mealPlan.findAll({
+			where: { userId: userId },
+		});
+
+		if (mealPlan === undefined) {
+			return res.status(404);
+		}
+
+		const mealPlanId = mealPlan.dataValues.id;
+
+		const recipeMealPlan = await models.recipeMealPlan.findAll({
+			where: { mealId: mealPlanId },
+		});
+
+		const plan = recipeMealPlan.map((m) => {
+			return JSON.parse(JSON.stringify(m, null, 2));
+		});
+
+		console.info(plan);
+		return res.status(200).send(plan);
+	} catch (e) {
+		console.info(e);
+	}
+});
 
 // This displays message that the server running and listening to specified port
 app.listen(port, () => console.log(`Listening on port ${port}`));

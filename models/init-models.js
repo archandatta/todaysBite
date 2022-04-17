@@ -36,6 +36,8 @@ function initModels(sequelize) {
   recipe.hasMany(step, { as: "steps", foreignKey: "recipeId"});
   recipeTag.belongsTo(tag, { as: "tag", foreignKey: "tagId"});
   tag.hasMany(recipeTag, { as: "recipeTags", foreignKey: "tagId"});
+  mealPlan.belongsTo(user, { as: "user", foreignKey: "userId"});
+  user.hasMany(mealPlan, { as: "mealPlans", foreignKey: "userId"});
   recipe.belongsTo(user, { as: "user", foreignKey: "userId"});
   user.hasMany(recipe, { as: "recipes", foreignKey: "userId"});
 
