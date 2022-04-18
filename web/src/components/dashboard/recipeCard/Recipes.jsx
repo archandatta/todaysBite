@@ -21,19 +21,14 @@ const Recipes = () => {
 	const setRecipes = useSetRecoilState(recipesState);
 
 	const [response, setResponse] = useState(null);
-	const [error, setError] = useState('');
-	const [loading, setLoading] = useState(true);
 
 	const fetchData = async (userId) => {
 		try {
 			const recipes = await getRecipes(userId);
 			setResponse(recipes.data);
 			setRecipes(recipes.data);
-			console.info(recipes.data);
 		} catch (e) {
-			setError(e);
-		} finally {
-			setLoading(false);
+			console.info(e);
 		}
 	};
 

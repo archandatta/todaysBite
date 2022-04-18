@@ -57,7 +57,7 @@ const MealPlan = ({ recipeId }) => {
 		[course, day, mealPlan, userId]
 	);
 
-	const createMealPlan = async (mealPlanData) => {
+	const CreateMealPlan = async (mealPlanData) => {
 		try {
 			await createMealPlan(mealPlanData);
 		} catch (e) {
@@ -83,8 +83,6 @@ const MealPlan = ({ recipeId }) => {
 	useEffect(() => {
 		fetchData(userId);
 	}, [userId]);
-
-	console.info(p[currDay].Breakfast);
 
 	return (
 		<Container className={classes.root} fluid>
@@ -116,7 +114,7 @@ const MealPlan = ({ recipeId }) => {
 								const plan = { ...mealPlan };
 								plan[day] = { ...plan[day], [course]: recipeData.recipe };
 								setMealPlan(plan);
-								createMealPlan(mealPlanData);
+								CreateMealPlan(mealPlanData);
 							}}
 						>
 							Set Meal
@@ -131,8 +129,8 @@ const MealPlan = ({ recipeId }) => {
 						))}
 					</DropdownButton>
 					<p>Breakfast: {p[currDay].Breakfast}</p>
-					<p>Lunch: {p[currDay].Lunch.title}</p>
-					<p>Dinner: {p[currDay].Dinner.title}</p>
+					<p>Lunch: {p[currDay].Lunch}</p>
+					<p>Dinner: {p[currDay].Dinner}</p>
 				</Card.Body>
 			</Card>
 		</Container>
