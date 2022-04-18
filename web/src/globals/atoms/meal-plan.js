@@ -4,7 +4,9 @@ export const mealPlanState = atom({
 	key: 'mealPlanState',
 	default: {
 		Day: {
-			Course: '',
+			Breakfast: '',
+			Lunch: '',
+			Dinner: '',
 		},
 		Monday: {
 			Breakfast: '',
