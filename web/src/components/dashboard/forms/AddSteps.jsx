@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
@@ -10,6 +10,7 @@ import { recipeIntputState } from '../../../globals/atoms/recipe-input';
 import { ingrediantInputState } from '../../../globals/atoms/ingrediant-inputs';
 import { createRecipe } from '../../../util/rest/recipes';
 import Forward from '../../icons/Forward';
+import { recipesState } from '../../../globals/atoms/recipes';
 
 const stepsForm = {
 	step: 'Enter Step Description',
@@ -53,6 +54,7 @@ const AddIngrediantsForm = () => {
 
 	const recipeInput = useRecoilValue(recipeIntputState);
 	const ingrediantInputs = useRecoilValue(ingrediantInputState);
+	const setRecipes = useSetRecoilState(recipesState);
 
 	const recipeData = {
 		recipeInput,
@@ -116,6 +118,7 @@ const AddIngrediantsForm = () => {
 								onClick={() => {
 									setInputs(stepInputs);
 									fetchData(recipeData);
+									setRecipes((prev) => [...prev, recipeData]);
 									navigate('/dashboard');
 								}}
 							>

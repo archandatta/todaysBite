@@ -27,7 +27,7 @@ const IngrediantInput = ({ inputs, val, index, setInputs }) => {
 	const classes = useStyles();
 
 	return (
-		<Stack direction='horizontal' gap={4}>
+		<Stack direction="horizontal" gap={4}>
 			<Form.Group className={`mb-${index}`} controlId="formBasicName">
 				<Form.Label className={classes.formLabel}>{recipeForm.name}</Form.Label>
 				<Form.Control
@@ -52,7 +52,6 @@ const IngrediantInput = ({ inputs, val, index, setInputs }) => {
 						const ingrediants = [...inputs?.ingrediants];
 						ingrediants[index] = { ...ingrediants[index], quantity: value };
 						setInputs({ ingrediants });
-						console.info(value, ingrediants);
 					}}
 				/>
 			</Form.Group>
@@ -70,7 +69,7 @@ const IngrediantInput = ({ inputs, val, index, setInputs }) => {
 					}}
 				/>
 			</Form.Group>
-		</ Stack>
+		</Stack>
 	);
 };
 
