@@ -116,7 +116,7 @@ const AddIngrediantsForm = () => {
 								onClick={() => {
 									setInputs(stepInputs);
 									fetchData(recipeData);
-									// navigate('/dashboard');
+									navigate('/dashboard');
 								}}
 							>
 								{stepsForm.nextButton} <Forward />

@@ -189,7 +189,6 @@ app.get('/recipe/:id', async (req, res) => {
 			],
 		});
 
-		// TODO: get steps for each recipe
 		const steps = await models.step.findAll({
 			order: [['stepNum', 'ASC']],
 			where: { recipeId: recipeIds },
@@ -198,13 +197,21 @@ app.get('/recipe/:id', async (req, res) => {
 		const recipeData = recipeIds.map((id) => {
 			var ingrediants = [];
 			var recipe;
+			var recipeStep = [];
+
+			steps.map((step) => {
+				if (id === step.recipeId) {
+					recipeStep.push(step);
+				}
+			});
+
 			recipeIngredients.map((r) => {
 				if (r.recipeId === id) {
 					recipe = r.recipe;
 					ingrediants.push(r.ingredient);
 				}
 			});
-			return { recipe: recipe, ingredients: ingrediants, steps: steps };
+			return { recipe: recipe, ingredients: ingrediants, steps: recipeStep };
 		});
 
 		// console.info('all recipes', recipeId, JSON.stringify(recipe, null, 2));

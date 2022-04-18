@@ -74,11 +74,11 @@ const RecipeCard = ({ recipeData }) => {
 		<ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
 			<Card className={classes.root}>
 				<Card.Body>
-					<Card.Title className={classes.title}>{recipeData.recipe.title}</Card.Title>
-					<Card.Text className={classes.body}>{recipeData.recipe.description}</Card.Text>
+					<Card.Title className={classes.title}>{recipeData.recipe?.title}</Card.Title>
+					<Card.Text className={classes.body}>{recipeData.recipe?.description}</Card.Text>
 					<Card.Text className={classes.text}>
-						{recipeCard.prepTime} {recipeData.recipe.prepTime}
-						{recipeCard.cookTime} {recipeData.recipe.cookTime}
+						{recipeCard.prepTime} {recipeData.recipe?.prepTime}
+						{recipeCard.cookTime} {recipeData.recipe?.cookTime}
 					</Card.Text>
 					<Button className={classes.button} variant="primary" onClick={() => setIsFlipped((prev) => !prev)}>
 						{recipeCard.seeIngredients}

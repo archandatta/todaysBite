@@ -29,7 +29,7 @@ const Recipes = () => {
 			const recipes = await getRecipes(userId);
 			setResponse(recipes.data);
 			setRecipes(recipes.data);
-			// console.info(recipes.data);
+			console.info(recipes.data);
 		} catch (e) {
 			setError(e);
 		} finally {

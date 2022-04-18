@@ -60,7 +60,8 @@ const FullRecipe = ({ recipeId }) => {
 	const classes = useStyles();
 
 	const recipes = useRecoilValue(recipesState);
-	const recipeData = recipes?.filter((r) => r.recipe.id === recipeId)[0];
+	console.info(recipes, recipeId);
+	const recipeData = recipes?.filter((r) => r.recipe?.id === recipeId)[0];
 
 	return (
 		<Stack className={classes.root}>

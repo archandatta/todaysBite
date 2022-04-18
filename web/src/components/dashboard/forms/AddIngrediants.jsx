@@ -48,9 +48,6 @@ const AddIngrediants = () => {
 	const [ingrediantInputs, setIngrediantInputs] = useRecoilState(ingrediantInputState);
 	const [inputs, setInputs] = useState({ ingrediants: [{ name: '', unit: '', quantity: '' }] });
 
-	console.info(inputs);
-	console.info(ingrediantInputs);
-
 	return (
 		<>
 			<Top />
