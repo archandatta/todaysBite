@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button, Card, Container, Stack, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import { recipesState } from '../../../globals/atoms/recipes';
 import { mealPlanState } from '../../../globals/atoms/meal-plan';
-import { createMealPlan } from '../../../util/rest/mealPlan';
+import { createMealPlan, getMealPlan } from '../../../util/rest/mealPlan';
 import { useMemo } from 'react';
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -35,12 +35,14 @@ const useStyles = makeStyles({
 
 const MealPlan = ({ recipeId }) => {
 	const classes = useStyles();
-	const [mealPlan, setMealPlan] = useRecoilState(mealPlanState);
 	const userId = localStorage.getItem('userId');
+
+	const [mealPlan, setMealPlan] = useRecoilState(mealPlanState);
 
 	const [day, setDay] = useState('Day');
 	const [currDay, setCurrDay] = useState('Day');
 	const [course, setCourse] = useState('Course');
+	const [response, setResponse] = useState(null);
 
 	const recipes = useRecoilValue(recipesState);
 	const recipeData = recipes?.filter((r) => r.recipe.id === recipeId)[0];
@@ -55,29 +57,32 @@ const MealPlan = ({ recipeId }) => {
 		[course, day, mealPlan, userId]
 	);
 
-	const [response, setResponse] = useState(null);
-	const [error, setError] = useState('');
-	const [loading, setLoading] = useState(true);
-
-	const fetchData = async (mealPlanData) => {
+	const CreateMealPlan = async (mealPlanData) => {
 		try {
-			const user = await createMealPlan(mealPlanData);
-			console.info(user);
-			// localStorage.setItem('userId', 'U1');
-			// localStorage.setItem('userId', user.data.id);
-			// setResponse(user.data);
+			await createMealPlan(mealPlanData);
 		} catch (e) {
-			setError(e);
-		} finally {
-			setLoading(false);
+			console.info(e);
 		}
 	};
 
-	useEffect(() => {
-		if (response !== null && !loading) {
-			// push to dashboard with user id
+	const fetchData = async (userId) => {
+		try {
+			const mealPlans = await getMealPlan(userId);
+			setResponse(mealPlans.data);
+		} catch (e) {
+			console.info(e);
 		}
-	}, [error, loading, response]);
+	};
+
+	const p = useMemo(() => {
+		const plans = { ...mealPlan };
+		response?.map((m) => (plans[m.day] = { ...plans[m.day], [m.course]: m.recipeName }));
+		return plans;
+	}, [response]);
+
+	useEffect(() => {
+		fetchData(userId);
+	}, [userId]);
 
 	return (
 		<Container className={classes.root} fluid>
@@ -109,7 +114,7 @@ const MealPlan = ({ recipeId }) => {
 								const plan = { ...mealPlan };
 								plan[day] = { ...plan[day], [course]: recipeData.recipe };
 								setMealPlan(plan);
-								fetchData(mealPlanData);
+								CreateMealPlan(mealPlanData);
 							}}
 						>
 							Set Meal
@@ -123,9 +128,9 @@ const MealPlan = ({ recipeId }) => {
 							</Dropdown.Item>
 						))}
 					</DropdownButton>
-					<Card.Text>Breakfast: {mealPlan[currDay]?.Breakfast?.title}</Card.Text>
-					<Card.Text>Lunch: {mealPlan[currDay]?.Lunch?.title}</Card.Text>
-					<Card.Text>Dinner: {mealPlan[currDay]?.Dinner?.title}</Card.Text>
+					<p>Breakfast: {p[currDay].Breakfast}</p>
+					<p>Lunch: {p[currDay].Lunch}</p>
+					<p>Dinner: {p[currDay].Dinner}</p>
 				</Card.Body>
 			</Card>
 		</Container>

@@ -54,8 +54,18 @@ const MealPlanCard = ({ day, mealPlanData }) => {
 							{mealPlan[day]?.Breakfast}
 						</Button>
 					</Card.Text>
-					<Card.Text className={classes.body}>Lunch: {mealPlan[day]?.Lunch}</Card.Text>
-					<Card.Text className={classes.body}>Dinner: {mealPlan[day]?.Dinner}</Card.Text>
+					<Card.Text className={classes.body}>
+						Lunch:
+						<Button variant="link" className={classes.link}>
+							{mealPlan[day]?.Lunch}
+						</Button>
+					</Card.Text>
+					<Card.Text className={classes.body}>
+						Dinner:
+						<Button variant="link" className={classes.link}>
+							{mealPlan[day]?.Dinner}
+						</Button>
+					</Card.Text>
 				</Card.Body>
 			</Card>
 		</Container>

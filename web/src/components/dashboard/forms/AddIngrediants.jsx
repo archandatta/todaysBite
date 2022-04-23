@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
@@ -45,11 +45,8 @@ const AddIngrediants = () => {
 	const classes = useStyles();
 	const navigate = useNavigate();
 
-	const [ingrediantInputs, setIngrediantInputs] = useRecoilState(ingrediantInputState);
+	const setIngrediantInputs = useSetRecoilState(ingrediantInputState);
 	const [inputs, setInputs] = useState({ ingrediants: [{ name: '', unit: '', quantity: '' }] });
-
-	console.info(inputs);
-	console.info(ingrediantInputs);
 
 	return (
 		<>
