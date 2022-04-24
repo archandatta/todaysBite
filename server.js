@@ -62,7 +62,6 @@ async function findOrCreateIngredients(ingredients) {
 }
 
 // POST - add recipe
-// TODO: tags
 app.post('/create-recipe', async (req, res) => {
 	if (req === undefined) {
 		return res.status(204);
@@ -166,10 +165,7 @@ app.post('/create-meal-plan', async (req, res) => {
 	}
 });
 
-// PUT - add tag to recipe
-
 // GET - find all recipes by user
-// TODO: tags, meal plan
 app.get('/recipe/:id', async (req, res) => {
 	const userId = req.params.id;
 
@@ -214,7 +210,6 @@ app.get('/recipe/:id', async (req, res) => {
 			return { recipe: recipe, ingredients: ingrediants, steps: recipeStep };
 		});
 
-		// console.info('all recipes', recipeId, JSON.stringify(recipe, null, 2));
 		res.status(200).send(recipeData);
 	} catch (e) {
 		console.info(e);
@@ -223,8 +218,6 @@ app.get('/recipe/:id', async (req, res) => {
 
 // GET - find ingredients from a list of recipes
 app.get('/get-ingredients/:id', async (req, res) => {
-	// compile them into one list
-
 	const userId = req.params.id;
 
 	try {
@@ -281,10 +274,6 @@ app.get('/get-ingredients/:id', async (req, res) => {
 		console.info(e);
 	}
 });
-
-// GET - find recipes by tag
-// find the tag id from param
-// use tag id to search recipe tag to find all recipes
 
 // GET - find all recipes for a planned week
 app.get('/meal-plan/:id', async (req, res) => {
